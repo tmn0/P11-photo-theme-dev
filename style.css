@@ -1,0 +1,42 @@
+/*
+Theme Name: photo
+*/
+
+
+/*GENERAL*/
+@font-face {
+    font-family: "Poppins";    
+    src: url('/font/Poppins') format('ttf');
+    font-family: "Space Mono";    
+    src: url('/font/Space_Mono') format('ttf'),
+}
+
+
+
+body {
+    overflow-x: hidden;
+    margin: auto;
+    max-width: 1440px;
+}
+
+
+
+/*HEADER*/
+.header-container {
+    position: relative;
+    text-align: center;
+}
+
+.header-title {
+    position: absolute;
+    top: 50%;    
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: auto;
+    
+}
+
+.header-bg {
+    max-height: 950px;
+    
+}
