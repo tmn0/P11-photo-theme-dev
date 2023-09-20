@@ -4,8 +4,7 @@
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />    
     <link rel="stylesheet" href="<?php echo get_stylesheet_directory_uri() . '/style.css'?>">
-    <title>Nathalie Mota photographe</title>
-    
+    <title>Nathalie Mota photographe</title>    
 </head>
 
 <body>
@@ -15,13 +14,19 @@
 
 <header class="header-hero-container">      
     <img class="hero-title"  alt="hero-title"
-    src="<?php echo get_stylesheet_directory_uri() . '/medias/header-title.png'?>">    
+    src="<?php echo get_stylesheet_directory_uri() . '/medias/header-title.png'?>">   
+
+
+<!-- selectable hero img in wordpress -->    
     
+        <div id="custom-hero-image">
+        <?php if (get_header_image()) : ?>
+            <img src="<?php header_image(); ?>" alt="<?php echo esc_attr(get_bloginfo('name', 'display')); ?>">
+           
+        <?php else: ?>
+        <img src="<?php echo get_template_directory_uri() . '/medias/header-bg.jpeg'?>"> 
+        </div>
+        <?php endif ?>  
+     
 
-    <img class="hero-bg"  alt="hero-image"
-    src="<?php echo get_stylesheet_directory_uri() . '/medias/header-bg.jpeg'?>">
 </header>
-
-
-
-

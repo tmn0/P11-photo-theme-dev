@@ -40,19 +40,51 @@ a:hover {
 }
 
 
-/* ----NAV BAR MENU----*/
+/* ----NAVBAR MENU----*/
 .nav-container {
     padding-top: 15px;
     padding-bottom: 15px;
+    display: flex;
 }
 
-.nav-logo {
-    width: 25%;   
+.logo-container {
+    width: 50%;   
     margin-left: 8%;
 }
 
+.nav-menu-container {
+    width: 25%;
+    font-family: "Space Mono";
+    font-size: 16px;
+    display: flex;  
+    right: 100%;    
+    align-self: flex-end;
+}
 
-/* ----HEADER----*/
+.menu-menu1-container {
+    width: 100%;    
+    
+}
+
+.menu-menu1-container ul {
+    display: flex;
+    flex-direction: row;    
+    justify-content: space-between;
+    
+}
+
+.menu-menu1-container li {    
+    padding-left: 15px;
+    padding-right: 15px;
+    
+}
+
+.menu-menu1-container li:hover {
+    border: 2px solid #000;
+}
+
+
+/* ----HEADER / HERO----*/
 .header-hero-container {
     position: relative;
     text-align: center;
@@ -67,10 +99,12 @@ a:hover {
     max-width: 90%;
 }
 
-.hero-bg {
+#custom-hero-image {
     width: 100%;
-    max-height: 950px;    
-    object-fit: cover;
+    max-width: 100% !important;
+    max-height: 900px !important;    
+    object-fit: contain;
+    overflow: hidden;
 }
 
 
@@ -82,8 +116,7 @@ a:hover {
     flex-direction: row;
     justify-content: center;
     padding-top: 10px;
-    padding-bottom: 10px;
-    
+    padding-bottom: 10px;    
 }
 
 .footer-nav-link { 
