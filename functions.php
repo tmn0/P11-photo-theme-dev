@@ -6,7 +6,7 @@ function custom_scripts() {
 add_action( 'wp_enqueue_scripts', 'custom_scripts' );
 
 
-
+/* get_theme_file_uri :: not working ?? //// only in html < link rel> ? */
 function theme_enqueue_styles() {
   wp_register_style('theme-main', get_stylesheet_directory_uri() . '/style.css' );
   wp_enqueue_style('theme-main'); 
@@ -14,9 +14,20 @@ function theme_enqueue_styles() {
 add_action( 'wp_enqueue_scripts', 'theme_enqueue_styles' );
 
 
-/* get_theme_file_uri :: non plus*/
 
-function custom_theme_setup() {
+/* wordpress menu addition for theme */
+function wp_menu_setup() {
     register_nav_menu('primary', 'Primary Navigation Menu');
 }
-add_action('after_setup_theme', 'custom_theme_setup');
+add_action('after_setup_theme', 'wp_menu_setup');
+
+
+/* wordpress menu call */
+function theme_menus() {
+    register_nav_menus(
+        array(
+            'custom-menu' => __('Menu1'),
+        )
+    );
+}
+add_action('init', 'theme_menus');
