@@ -45,42 +45,48 @@ a:hover {
     padding-top: 15px;
     padding-bottom: 15px;
     display: flex;
+    justify-content: space-between;  
+    padding-right: 5%;
+    align-items: center;
 }
 
 .logo-container {
-    width: 50%;   
+    width: 33%;   
     margin-left: 8%;
+    display: flex;        
+    align-items: center;
+}
+
+.logo-container img {
+    width: 100%;
+    height: auto;    
 }
 
 .nav-menu-container {
-    width: 25%;
+    width: 33%;
     font-family: "Space Mono";
     font-size: 16px;
-    display: flex;  
-    right: 100%;    
-    align-self: flex-end;
+    display: flex;        
+    align-self: flex-end;    
 }
 
 .menu-menu1-container {
-    width: 100%;    
-    
+    width: 100%;        
 }
 
 .menu-menu1-container ul {
     display: flex;
     flex-direction: row;    
-    justify-content: space-between;
-    
+    justify-content: space-between;        
 }
 
 .menu-menu1-container li {    
     padding-left: 15px;
-    padding-right: 15px;
-    
+    padding-right: 15px;      
 }
 
 .menu-menu1-container li:hover {
-    border: 2px solid #000;
+    outline: 2px solid #000;    
 }
 
 
@@ -123,9 +129,13 @@ a:hover {
     width: 33%;  
     text-align: center; 
     margin-left: -5%;
-    margin-right: -5%;
+    margin-right: -5%;    
+}
+
+.footer-nav-link a {
+    padding: 2px;
 }
 
 .footer-nav-link a:hover {
-    border: 2px solid #000;    
+    outline: 2px solid #000;      
 }
