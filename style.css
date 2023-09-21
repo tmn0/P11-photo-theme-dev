@@ -45,48 +45,45 @@ a:hover {
     padding-top: 15px;
     padding-bottom: 15px;
     display: flex;
-    justify-content: space-between;  
-    padding-right: 5%;
-    align-items: center;
+    justify-content: space-between;
 }
 
 .logo-container {
-    width: 33%;   
+    width: 33%;
     margin-left: 8%;
-    display: flex;        
+    display: flex;
     align-items: center;
 }
 
-.logo-container img {
-    width: 100%;
-    height: auto;    
+.logo-container .nav-logo {
+    max-width: 100%;
+    height: auto; 
 }
 
 .nav-menu-container {
-    width: 33%;
+    width: 66%;
     font-family: "Space Mono";
-    font-size: 16px;
-    display: flex;        
-    align-self: flex-end;    
+    font-size: 18px;
+    display: flex;       
+    justify-content: flex-end;
+    padding-right: 8%;    
 }
 
-.menu-menu1-container {
-    width: 100%;        
-}
-
-.menu-menu1-container ul {
-    display: flex;
-    flex-direction: row;    
-    justify-content: space-between;        
+.menu-menu1-container ul {    
+    display: flex;    
+    flex-direction: row;         
+    justify-content: space-evenly;
 }
 
 .menu-menu1-container li {    
-    padding-left: 15px;
-    padding-right: 15px;      
+    padding-left: 10px;
+    padding-right: 10px;   
+    margin-left: 10px;
+    margin-right: 10px; 
 }
 
 .menu-menu1-container li:hover {
-    outline: 2px solid #000;    
+    outline: 2px solid #000;
 }
 
 
@@ -129,13 +126,9 @@ a:hover {
     width: 33%;  
     text-align: center; 
     margin-left: -5%;
-    margin-right: -5%;    
-}
-
-.footer-nav-link a {
-    padding: 2px;
+    margin-right: -5%;
 }
 
 .footer-nav-link a:hover {
-    outline: 2px solid #000;      
+    outline: 2px solid #000;    
 }

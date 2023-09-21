@@ -2,8 +2,8 @@
 
 /* script call */
 function custom_scripts() {
-  wp_register_script('photo_theme_scripts', get_template_directory_uri() . '/scripts/scripts.js');
-  wp_enqueue_script('photo_theme_scripts');      
+  wp_register_script('photo_theme_scripts', );
+  wp_enqueue_script('photo_theme_scripts', get_template_directory_uri() . '/scripts/scripts.js');      
 }
 add_action( 'wp_enqueue_scripts', 'custom_scripts' );
 
