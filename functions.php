@@ -1,21 +1,42 @@
 <?php
 
-/* script call */
-function custom_scripts() {
-  wp_register_script('photo_theme_scripts', );
-  wp_enqueue_script('photo_theme_scripts', get_template_directory_uri() . '/scripts/scripts.js');      
+function photo_theme_register_assets() {    
+    
+    /* wp_enqueue_script('jquery' ); */   
+    
+	wp_enqueue_script ('scripts', 
+        get_template_directory_uri() . '/scripts/script.js', array( 'jquery' ), '1.0', true
+    );
+    
+    
+    wp_enqueue_style ( 'photo', get_stylesheet_uri(), array(), '1.0'
+    );  	
+    
 }
-add_action( 'wp_enqueue_scripts', 'custom_scripts' );
+
+add_action( 'wp_enqueue_scripts', 'photo_theme_register_assets' );
+
+/* script call */
+/*BUG:: NE FONCTIONNE PAS*/
+/* 
+function enqueue_custom_script() {    
+    wp_enqueue_script('custom-script', get_stylesheet_directory_uri() . 'scripts/scripts.js');
+}
+add_action('wp_enqueue_scripts', 'enqueue_custom_script');
+*/
+
 
 
 /* style call
 get_theme_file_uri :: not working ?? //// only in html < link rel> ? 
 */
+/*
 function theme_enqueue_styles() {
   wp_register_style('theme-main', get_stylesheet_directory_uri() . '/style.css' );
   wp_enqueue_style('theme-main'); 
 }
 add_action( 'wp_enqueue_scripts', 'theme_enqueue_styles' );
+*/
 
 
 /* wordpress menu addition for theme */
@@ -50,4 +71,31 @@ function custom_theme_support() {
     ));
 }
 add_action('after_setup_theme', 'custom_theme_support');
+
+
+/* Walker Menu */
+class Walker_Main_Menu extends Walker_Nav_Menu {
+    public function start_el(&$output, $item, $depth = 0, $args = null, $current_object_id = 0) {
+       
+        if ($item->title === 'Contact') {           
+            $output .= "<li class='custom-menu-item contact-open-modal'>";
+            $output .= "<a href='" . get_template_directory_uri() . '/template-part/contact.php'. "'>Contact</a>"; 
+            $output .= "</li>";
+
+        } else {           
+            $output .= "<li>";
+            $output .= "<a href='" . $item->url . "'>" . $item->title . "</a>";
+            $output .= "</li>";
+        }
+    }
+}
+
+/* TEST! shortcode plugin ?? */
+add_filter( 'widget_text', 'shortcode_unautop');
+add_filter( 'widget_text', 'do_shortcode');
+
+
+
+
+
 

@@ -49,7 +49,7 @@ a:hover {
 }
 
 .logo-container {
-    width: 33%;
+    width: 30%;
     margin-left: 8%;
     display: flex;
     align-items: center;
@@ -61,7 +61,7 @@ a:hover {
 }
 
 .nav-menu-container {
-    width: 66%;
+    width: 69%;
     font-family: "Space Mono";
     font-size: 18px;
     display: flex;       
@@ -69,20 +69,20 @@ a:hover {
     padding-right: 8%;    
 }
 
-.menu-menu1-container ul {    
+.nav-menu-container ul {    
     display: flex;    
     flex-direction: row;         
     justify-content: space-evenly;
 }
 
-.menu-menu1-container li {    
+.nav-menu-container li {    
     padding-left: 10px;
     padding-right: 10px;   
     margin-left: 10px;
     margin-right: 10px; 
 }
 
-.menu-menu1-container li:hover {
+.nav-menu-container li:hover {
     outline: 2px solid #000;
 }
 
@@ -131,4 +131,12 @@ a:hover {
 
 .footer-nav-link a:hover {
     outline: 2px solid #000;    
+}
+
+
+
+#contact-modal-id {
+    max-width: 90%;
+    max-height: 90%;
+    
 }

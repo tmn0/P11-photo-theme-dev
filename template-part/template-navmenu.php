@@ -7,13 +7,16 @@
     </div>
 
     <div class="nav-menu-container">
-    <?php
-    if (has_nav_menu('custom-menu')) { 
-        wp_nav_menu(array(
-            'theme_location' => 'custom-menu',
-            'menu_class' => '', 
-        ));
-    }
-    ?>
+        <nav role="navigation" aria-label="<?php _e('main menu', 'text-domain'); ?>">
+            <?php
+                wp_nav_menu([
+                    'theme_location' => 'custom-menu',
+                    'container'      => false,
+                    'walker' => new Walker_Main_Menu(),
+                ]);
+            ?>
+        </nav>
     </div>    
 </div>
+
+
