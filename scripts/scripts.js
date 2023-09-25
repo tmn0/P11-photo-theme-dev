@@ -4,7 +4,7 @@ setTimeout(function() {
 }, 2000); // 2000 milliseconds = 2 seconds
 */
 
-/* Menu modal */
+/* Modal menu  */
 document.addEventListener('DOMContentLoaded', function () {
     const modal = document.getElementById('contact-modal-id');
     const openModalLink = document.querySelector('.contact-open-modal');
@@ -21,7 +21,7 @@ document.addEventListener('DOMContentLoaded', function () {
     openModalLink.addEventListener('click', openModal);    
     closeModalButton.addEventListener('click', closeModal);
 
-    // Event listener to close the modal when the user clicks outside the modal
+    // Event listener to close the modal 
     window.addEventListener('click', function (event) {
         if (event.target === modal) {
             closeModal();

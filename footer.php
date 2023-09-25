@@ -6,9 +6,9 @@
  
 </div>
 
-   
-
-
+       <?php /*include ($_SERVER['DOCUMENT_ROOT']
+     . get_template_directory_uri() . '/template-part/contact.php'); */ ?>   
+    
     </body>
 </html>
  

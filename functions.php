@@ -90,11 +90,51 @@ class Walker_Main_Menu extends Walker_Nav_Menu {
     }
 }
 
-/* TEST! shortcode plugin ?? */
-add_filter( 'widget_text', 'shortcode_unautop');
-add_filter( 'widget_text', 'do_shortcode');
+/* Contact shortcode register*/
 
 
+function custom_register_wpforms_shortcode() {
+    add_shortcode('wpforms', 'custom_wpforms_shortcode_callback');
+}
+
+function custom_wpforms_shortcode_callback($atts) {
+    function custom_wpforms_shortcode_callback($atts) {
+   
+    if (function_exists('wpforms')) {
+        
+        if (isset($atts['id'])) {
+           
+            $form_id = intval($atts['id']); // Convert 'id' attribute to an integer
+            $form = wpforms()->form->get($form_id);
+
+            
+            if ($form) {
+                
+                $form_output = wpforms()->process->render(
+                    $form_id,
+                    [
+                        'title' => (isset($atts['title']) && strtolower($atts['title']) === 'false') ? false : true,
+                        
+                    ]
+                );
+
+                return $form_output;
+            } else {
+                return 'Form not found'; 
+            }
+        } else {
+            return 'No form ID provided'; 
+        }
+    } else {
+        return 'WPForms plugin is not active'; 
+    }
+}
+
+}
+
+add_action('init', 'custom_register_wpforms_shortcode');
+
+add_filter('the_content', 'filter_content_example');
 
 
 
