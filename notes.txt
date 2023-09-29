@@ -1,0 +1,4 @@
+/* page spécifique pour page d'accueil (front-page.php)
+Les autres pages (single)
+Les pages photos -- 
+Les articles / single /*

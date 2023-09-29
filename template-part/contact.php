@@ -1,7 +1,14 @@
-<div id="contact-modal-id" class="contact-modal-class">
-    <div class="contact-modal-content">
-         <?php echo do_shortcode('[wpforms id="32" title="false"]');
-         ?>
+<div id="contactModal" class="modal custom-modal">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">Contact Us</h5>
+                <button type="button" class="close" id="closeModal">&times;</button>
+            </div>
+            <div class="modal-body" id="modalContent">
+                <!-- Your contact form or content goes here -->
+                <p>This is where your contact form or contact information should be placed.</p>
+            </div>
+        </div>
     </div>
-    <button id="contact-close-modal">Close</button>
 </div>
