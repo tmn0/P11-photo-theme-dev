@@ -20,22 +20,25 @@ add_action( 'wp_enqueue_scripts', 'photo_theme_register_assets' );
 /*-------------*/
 /*-------------*/
 /* script call */
+
+/*
 function enqueue_custom_script() {    
     wp_enqueue_script('custom-script', get_stylesheet_directory_uri() . 'scripts/scripts.js');
 }
 add_action('wp_enqueue_scripts', 'enqueue_custom_script');
-
-
-/*-------------*/
-/*-------------*/
-/* style call
-get_theme_file_uri :: not working ?? //// only in html < link rel> ? 
 */
+
+/*-------------*/
+/*-------------*/
+//* style call , get_theme_file_uri :: not working ?? //// only in html < link rel> ? 
+
+/*
 function theme_enqueue_styles() {
   wp_register_style('theme-main', get_stylesheet_directory_uri() . '/style.css' );
   wp_enqueue_style('theme-main'); 
 }
 add_action( 'wp_enqueue_scripts', 'theme_enqueue_styles' );
+*/
 
 /*-------------*/
 /*
@@ -168,4 +171,13 @@ add_filter('the_content', 'filter_content_example');
 */
 
 
-
+/* Custom post type photo */ 
+function custom_register_photo_post_type() {
+    register_post_type('photo', array(
+        'labels' => array(
+            'name' => __('photos', 'your-text-domain'), 
+            'singular_name' => __('photo', 'your-text-domain'), 
+        ),
+    ));
+}
+add_action('init', 'custom_register_photo_post_type');
