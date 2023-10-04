@@ -1,1 +1,5 @@
-<?php get_header(); ?>
+<?php get_header(); 
+
+/* Le code pour chercher le post-photo */
+
+?>

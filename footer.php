@@ -1,3 +1,4 @@
+<footer>
 <div class="footer-nav">
   
     <div class="footer-nav-link"><a href="#">MENTIONS LEGALES</div>
@@ -10,6 +11,7 @@
      . get_template_directory_uri() . '/template-part/contact.php'); */ ?>   
     
     </body>
+</footer>
 </html>
  
 
