@@ -1,14 +1,14 @@
-<div id="contactModal" class="modal custom-modal">
-    <div class="modal-dialog">
+<div id="modal-container">
+   
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title">Contact Us</h5>
-                <button type="button" class="close" id="closeModal">&times;</button>
+                <img class="modal-title-img" 
+                src="<?php echo get_stylesheet_directory_uri() . '/medias/modal-title.png'?>">
+                <button type="button" class="close-modal-button" id="close-modal">&times;</button>
             </div>
-            <div class="modal-body" id="modalContent">
-                <!-- Your contact form or content goes here -->
-                <p>This is where your contact form or contact information should be placed.</p>
+            <div class="modal-form">
+                <?php echo do_shortcode('[contact-form-7 id="b633efe"]'); ?>                
             </div>
         </div>
-    </div>
+    
 </div>

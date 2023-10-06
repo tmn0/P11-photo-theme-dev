@@ -15,7 +15,7 @@
                     'walker' => new Walker_Main_Menu(),
                 ]);
             ?>
-            <?php get_template_part('contact'); ?>
+           
         </nav>
     </div>    
 </div>

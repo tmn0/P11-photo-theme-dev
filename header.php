@@ -9,13 +9,15 @@
     <link href="<?php echo get_stylesheet_directory_uri() . '/assets/fa-free/css/fontawesome.css'?>" rel="stylesheet">
     <link href="<?php echo get_stylesheet_directory_uri() . '/assets/fa-free/css/brands.css'?>" rel="stylesheet">
     <link href="<?php echo get_stylesheet_directory_uri() . '/assets/fa-free/css/solid.css'?>" rel="stylesheet">
+    <script src="<?php echo get_stylesheet_directory_uri() . '/scripts/jquery-3.7.1.min.js'?>"></script>
     <title>Nathalie Mota photographe</title>       
 </head>
 
 <body>
 
 <?php echo get_template_part('/template-part/navmenu'); ?>
-
+<?php echo get_template_part('/template-part/contact'); ?>
+<!-- (vérif template part dans template part) -->
 
 <header class="header-hero-container">      
     <img class="hero-title"  alt="hero-title"
