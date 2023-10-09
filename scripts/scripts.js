@@ -5,18 +5,36 @@ setTimeout(function() {
 */
 
 /*----FRONT PAGE BUTTONS----*/
-/*----Dropdown behaviour----*/
+/*----Taxo Dropdown behaviour----*/
 document.addEventListener("DOMContentLoaded", function() {
-    var button = document.querySelector(".home-button");
-    var dropdown = document.querySelector(".home-dropdown");     
+    var button1 = document.querySelector("#front-taxo-button1");
+    var dropdown1 = document.querySelector("#front-dropdown1");  
 
-    button.addEventListener("click", function() {
-        if (dropdown.style.display === "block") {
-            dropdown.style.display = "none";            
-        } else {
-            dropdown.style.display = "block";           
-        }
+    var button2 = document.querySelector("#front-taxo-button2");
+    var dropdown2 = document.querySelector("#front-dropdown2");   
+
+    var button3 = document.querySelector("#front-taxo-button3");
+    var dropdown3 = document.querySelector("#front-dropdown3");
+
+
+    button1.addEventListener("click", function() {
+        toggleDropdown(dropdown1);
     });
+    button2.addEventListener("click", function() {
+        toggleDropdown(dropdown2);
+    });
+    button3.addEventListener("click", function() {
+        toggleDropdown(dropdown3);
+    });
+        
+
+    function toggleDropdown(dropdown) {
+        if (dropdown.style.display === "block") {
+            dropdown.style.display = "none";
+        } else {
+            dropdown.style.display = "block";
+        }
+    }
 });
 
 document.addEventListener("DOMContentLoaded", function() {

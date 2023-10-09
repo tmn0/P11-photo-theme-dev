@@ -6,13 +6,13 @@
         <div class="taxonomy-selector-left-container">
             <!-- Button 1 -->
             <div class="taxonomy-button-container">
-                <button class="home-button">
+                <button class="home-button" id="front-taxo-button1">
                     <p class="home-button-title">CATÉGORIES</p>
                     <div class="fa-caret-container">
                         <i class="fa-solid fa-caret-down"></i>
                     </div>
                 </button>
-                <div class="home-dropdown">
+                <div class="home-dropdown" id="front-dropdown1">
                     <a href="#">Réception</a>
                     <a href="#">Télévision</a>
                     <a href="#">Concert</a>
@@ -21,32 +21,30 @@
             </div>
             <!-- Button 2 -->
             <div id="format-button" class="taxonomy-button-container">
-                <button class="home-button">
-                    <p class="home-button-title">CATÉGORIES</p>
+                <button class="home-button" id="front-taxo-button2">
+                    <p class="home-button-title">FORMATS</p>
                     <div class="fa-caret-container">
                         <i class="fa-solid fa-caret-down"></i>
                     </div>
                 </button>
-                <div class="home-dropdown">
-                    <a href="#">Format</a>
-                    <a href="#">Type</a>                
+                <div class="home-dropdown" id="front-dropdown2">
+                    <a href="#">Paysage</a>
+                    <a href="#">Portrait</a>                
                 </div>
             </div> <!-- End of Button 2 -->
         </div> <!-- End of taxonomy-selector-left-container -->
 
         <div class="taxonomy-selector-right-container">
             <div class="taxonomy-button-container">
-                <button class="home-button">
-                    <p class="home-button-title">CATÉGORIES</p>
+                <button class="home-button" id="front-taxo-button3">
+                    <p class="home-button-title">TRIER PAR</p>
                     <div class="fa-caret-container">
                         <i class="fa-solid fa-caret-down"></i>
                     </div>
                 </button>
-                <div class="home-dropdown">
-                    <a href="#">Réception</a>
-                    <a href="#">Télévision</a>
-                    <a href="#">Concert</a>
-                    <a href="#">Mariage</a>
+                <div class="home-dropdown" id="front-dropdown3">
+                    <a href="#">Les plus récentes</a>
+                    <a href="#">Les plus anciennes</a>                  
                 </div>
             </div>
         </div>
@@ -106,7 +104,7 @@
 
     <!-- Load more button -->
     <div class="load-more-button-container">
-        <button id="home-load-more-button" class="more-button" data-page="2">Charger plus</button>
+        <button id="home-load-more-button" class="more-button" data-page="1">Charger plus</button>
     </div>
 </div> <!-- Close home-container -->
 
