@@ -233,6 +233,7 @@ a:hover {
     border-radius: 5px;  
     border: 0px;
     transition: .1s;
+    font-family: "Space Mono" !important;
 }
 
 

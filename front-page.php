@@ -52,6 +52,7 @@
     </div> <!-- End of taxonomy-selector-main-container -->
 
     <!-- Custom post + masonry -->
+<section id="front-masonry">
     <?php
     $custom_query_args = array(
         'post_type' => 'photo',
@@ -75,14 +76,18 @@
             // Increment the item count
             $item_count++;
 
-            // Open a grid item
-            echo '<div class="home-masonry-item">';
+            // Get the permalink of the post
+            $post_permalink = get_permalink();
 
+            // Open a grid item and wrap it in an anchor tag with target="_blank"
+            echo '<a href="' . esc_url($post_permalink) . '" class="home-masonry-item" target="_blank">';
+
+            
             // Display the content of the post
             the_content();
 
-            // Close the grid item
-            echo '</div>';
+            // Close the anchor tag and the grid item
+            echo '</a>';
 
             /*
             // Check if it's time to start a new row
@@ -106,6 +111,8 @@
     <div class="load-more-button-container">
         <button id="home-load-more-button" class="more-button" data-page="1">Charger plus</button>
     </div>
+</section>
+
 </div> <!-- Close home-container -->
 
 <?php get_footer(); ?>

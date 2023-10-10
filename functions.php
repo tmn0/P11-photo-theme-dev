@@ -144,6 +144,18 @@ add_filter('the_content', 'filter_content_example');
 /*-------------*/
 /*-------------*/
 /* Custom post type photo */ 
+
+function custom_photo_post_type() {
+$args = array(
+    'public' => true,
+    'label'  => 'Photos',
+    'rewrite' => array( 'slug' => 'photo' ),
+);
+register_post_type( 'photo', $args );
+}
+add_action( 'init', 'custom_photo_post_type' );
+
+/*---  Conflict with code above >> disabled code or unnecessary ---
 function custom_register_photo_post_type() {
     register_post_type('photo', array(
         'labels' => array(
@@ -153,7 +165,7 @@ function custom_register_photo_post_type() {
     ));
 }
 add_action('init', 'custom_register_photo_post_type');
-
+*/
 
 /*-------------*/
 /*-------------*/
