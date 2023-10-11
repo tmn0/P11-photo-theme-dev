@@ -14,9 +14,7 @@ Theme Name: photo
     src: url('font/Space%20Mono/SpaceMono-Regular.ttf') format('truetype');
 }
 
-header {
-    padding-bottom: 75px;
-}
+
 
 footer {
     padding-top: 50px;
@@ -101,7 +99,7 @@ a:hover {
 
 /*-----------------------*/
 /*----HEADER / HERO----*/
-.header-hero-container {
+.hero-container {
     position: relative;
     text-align: center;
 }

@@ -6,7 +6,7 @@
     <div class="footer-nav-link"><a href="#">TOUS DROITS RESERVES</div>   
  
 </div>
-
+    <?php echo get_template_part('template-part/contact'); ?>    
        <?php /*include ($_SERVER['DOCUMENT_ROOT']
      . get_template_directory_uri() . '/template-part/contact.php'); */ ?>   
     

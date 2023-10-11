@@ -1,7 +1,9 @@
-<?php
-get_header();
+<?php get_template_part('header'); ?>
+<header>
+<?php get_template_part('template-part/navmenu'); ?>
+</header>
 
-// Start the loop
+<?php 
 while (have_posts()) :
     the_post();
 ?>
@@ -12,22 +14,12 @@ while (have_posts()) :
             <?php the_content(); ?>
         </div>
         
-        <!-- Display custom taxonomy terms -->
-        <div class="custom-taxonomy-terms">
-            <?php
-            $photo_terms = get_the_terms(get_the_ID(), 'photo');
-            if ($photo_terms) {
-                echo '<p>Photo Categories: ';
-                $term_links = array();
-                foreach ($photo_terms as $term) {
-                    $term_links[] = '<a href="' . esc_url(get_term_link($term)) . '">' . esc_html($term->name) . '</a>';
-                }
-                echo implode(', ', $term_links);
-                echo '</p>';
-            }
-            ?>
-        </div>
+        
+        
     </div>
 
 <?php
 endwhile;
+?>
+
+<?php get_footer(); ?>

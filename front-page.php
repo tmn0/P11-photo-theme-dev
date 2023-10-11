@@ -1,5 +1,10 @@
 <?php get_header(); ?>
 
+</header>
+<?php get_template_part('template-part/navmenu'); ?>
+<?php get_template_part('template-part/hero'); ?>
+</header>
+
 <div class="home-container">
     <!-- Buttons & Filters -->
     <div class="taxonomy-selector-main-container">
