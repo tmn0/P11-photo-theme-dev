@@ -104,13 +104,12 @@ a:hover {
     text-align: center;
 }
 
-.hero-title {
-    position: absolute;
-    top: 50%;    
-    left: 50%;
+.hero-title {    
+    position: absolute;  
     transform: translate(-50%, -50%);
-    margin: auto;    
-    max-width: 90%;
+    top: 50%;  
+    left: 50%;        
+    z-index: 1;
 }
 
 #custom-hero-image {
@@ -252,11 +251,12 @@ a:hover {
 .home-container {    
     width: 90%;
     margin: auto;    
+    padding-top: 50px;
 }
 
 .wp-block-image {
-    margin: 0%;
-    padding: 0%;
+    margin: 0;
+    padding: 0px;
 }
 
 .home-masonry-grid {
@@ -264,10 +264,10 @@ a:hover {
     display: flex;
     flex-wrap: wrap;
     justify-content: center;  
-    gap: 15px 15px;   
+    gap: 30px 30px;   
     padding-top: 50px;
     padding-bottom: 50px;
-    justify-content: space-around;
+    
 }
 
 .home-masonry-item {
@@ -276,6 +276,10 @@ a:hover {
     /*-- Bug: design / masonry item --*/   
 }
 
+.home-masonry-item:hover {
+    transition: .25s;
+    outline: 4px solid #215AFF;
+}
 
 .home-masonry-item img {    
     max-width: 564px;
@@ -422,3 +426,33 @@ a:hover {
 
 
 /*-----------------------*/
+/*----SINGLE PHOTO----*/
+
+#single-content {
+    padding-top: 50px;
+    display: flex;
+    width: 80%;
+    margin: auto;
+}
+
+.single-content-left {
+    display: flex;
+    flex: 1;
+    
+}
+
+.single-content-right {
+    display: flex;
+    flex: 1;
+    
+}
+
+.single-content-left h1 {
+    font-family: "Space Mono";
+    font-style: italic;
+    font-size: 50px;
+}
+
+.single-content-taxo-container {
+    display: flex;
+}
