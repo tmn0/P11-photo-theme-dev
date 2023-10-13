@@ -17,33 +17,52 @@
     </div>
 
 
-        <?php
-    // Custom taxo 1
-    $terms = get_the_terms(get_the_ID(), 'categorie');
-    // Custom taxo 2
-    $terms_format = get_the_terms(get_the_ID(), 'format');
+<?php
+// Custom taxo 0 acf
+$terms_reference = get_field('reference');
+// Custom taxo 1
+$terms_categorie = get_the_terms(get_the_ID(), 'categorie');
+// Custom taxo 2
+$terms_format = get_the_terms(get_the_ID(), 'format');
+// Custom taxo 3
+// $terms_type = get_the_terms(get_the_ID(), 'type');
 
-    // Call custom taxos
-    if (($terms || $terms_format) && (!is_wp_error($terms) || !is_wp_error($terms_format))) {
-        echo '<div>'; 
+// Call custom taxos
+echo '<div class="single-taxos-container">';
 
-        if ($terms) {
-            echo '<h2>Categorie:</h2>';
-            foreach ($terms as $term) {
-                echo '<p>' . $term->name . '</p>';
-            }
-        }
 
-        if ($terms_format) {
-            echo '<h2>Format:</h2>';
-            foreach ($terms_format as $term) {
-                echo '<p>' . $term->name . '</p>';
-            }
-        }
+if ($terms_reference) {
+    echo '<div><p>Référence:</p>';    
+        echo '<p>'. $terms_reference . '</p>';    
+    echo '</div>';
+}
 
-        echo '</div>'; 
+
+if ($terms_categorie) {
+    echo '<div><p>Categorie:</p>';
+    foreach ($terms_categorie as $term) {
+        echo '<p>' . $term->name . '</p>';
     }
+    echo '</div>';
+
+}
+
+if ($terms_format) {
+    echo '<div><p>Format:</p>';
+    foreach ($terms_format as $term) {
+        echo '<p>' . $term->name . '</p>';
+    }
+    echo '</div>';
+}
+
+
+echo '</div>';
+
+
 ?>
+
+
+
 
     
 
@@ -60,3 +79,9 @@
 </section>
 
 <?php get_footer(); ?>
+
+<!-- mini image avec fleche: le post d'après
+cf code theme 2020 de wp et adapter
+
+2 photos suivantes dans single: random dans meme catégorie
+-->

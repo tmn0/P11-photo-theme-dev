@@ -94,12 +94,12 @@
             // Close the anchor tag and the grid item
             echo '</a>';
 
-            /*
+            
             // Check if it's time to start a new row
             if ($item_count % 2 === 0) {
                 echo '<div class="home-masonry-fix"></div>';
             }
-            */
+            
         endwhile;
 
         // Close the grid container

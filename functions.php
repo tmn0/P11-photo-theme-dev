@@ -167,6 +167,48 @@ function custom_register_photo_post_type() {
 add_action('init', 'custom_register_photo_post_type');
 */
 
+
+
+/*-------------*/
+/*-------------*/
+/* WP IMG CLASS REMOVE-REPLACE */ 
+
+function custom_modify_post_content($content) {
+    
+    $content = preg_replace('/<figure(.*?)>(.*?)<\/figure>/i', '<div$1>$2</div>', $content);
+
+    return $content;
+}
+add_filter('the_content', 'custom_modify_post_content');
+
+/*-------------*/
+function remove_image_size_attributes($attributes) {
+    
+    if (isset($attributes['class'])) {
+
+        $attributes['class'] = str_replace('wp-block-image', '', $attributes['class']);
+        $attributes['class'] = trim($attributes['class']); // Remove extra spaces
+        
+        $classes_to_remove = array(
+            'size-large',  
+            'size-medium', 
+            'size-small',        
+        );
+
+        if (empty($attributes['class'])) {
+            unset($attributes['class']);
+
+        }
+
+        $attributes['class'] = array_diff($attributes['class'], $classes_to_remove);
+    }
+
+    return $attributes;
+}
+add_filter('wp_get_attachment_image_attributes', 'remove_image_size_attributes');
+
+
+
 /*-------------*/
 /*-------------*/
 /* AJAX / LOAD MORE BUTTON */ 
