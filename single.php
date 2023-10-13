@@ -32,14 +32,14 @@ echo '<div class="single-taxos-container">';
 
 
 if ($terms_reference) {
-    echo '<div><p>Référence:</p>';    
+    echo '<div><p>Référence:&nbsp;</p>';    
         echo '<p>'. $terms_reference . '</p>';    
     echo '</div>';
 }
 
 
 if ($terms_categorie) {
-    echo '<div><p>Categorie:</p>';
+    echo '<div><p>Categorie:&nbsp;</p>';
     foreach ($terms_categorie as $term) {
         echo '<p>' . $term->name . '</p>';
     }
@@ -48,7 +48,7 @@ if ($terms_categorie) {
 }
 
 if ($terms_format) {
-    echo '<div><p>Format:</p>';
+    echo '<div><p>Format:&nbsp;</p>';
     foreach ($terms_format as $term) {
         echo '<p>' . $term->name . '</p>';
     }
@@ -61,13 +61,6 @@ echo '</div>';
 
 ?>
 
-
-
-
-    
-
-
-
     <div class="single-content-right">        
         <?php the_content(); ?>                
     </div>
@@ -77,6 +70,17 @@ echo '</div>';
         ?>
 
 </section>
+
+
+
+<section id="single-contact-shortcut">
+
+    <button id="single-contact-button" class="contact-open-modal" 
+    data-post-id="<?php echo get_the_ID(); ?>">Contact</button>
+
+</section>
+
+
 
 <?php get_footer(); ?>
 

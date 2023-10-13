@@ -250,3 +250,24 @@ add_action('wp_ajax_nopriv_load_more_posts', 'load_more_posts'); // For non-logg
 
 
 
+//AJAX / BUTTON TAXO DATA FETCH
+function get_reference_term_data() {
+    // Get the post ID from the AJAX request
+    $post_id = $_POST['post_id'];
+
+    // Get the "reference" term data for the current post
+    $terms_reference = get_field('reference', $post_id);
+
+    // Create an array with the term data
+    $term_data = array(
+        'reference' => $terms_reference,
+    );
+
+    // Encode the data as JSON and send it back as the AJAX response
+    echo json_encode($term_data);
+
+    wp_die(); // Always include this to terminate the script properly
+}
+
+add_action('wp_ajax_get_reference_term_data', 'get_reference_term_data');
+add_action('wp_ajax_nopriv_get_reference_term_data', 'get_reference_term_data');

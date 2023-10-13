@@ -109,18 +109,17 @@ var loadmoreposts = {
 });
 /*
 
-/* Modal menu  */
-// Get references to the modal and its trigger elements
+/* Modal */
 document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('modal-container');
-    const openModalBtn = document.getElementById('open-modal'); /*<< in navemenu*/
-    const closeModalBtn = document.getElementById('close-modal');  
-    
+    let modal = document.getElementById('modal-container');
+    let openModalBtn = document.getElementById('open-modal');
+    let closeModalBtn = document.getElementById('close-modal');
+
     // Function to open the modal
     function openModal() {
         modal.style.display = 'block';
-        modal.classList.add('modal-open-state'); // Add the class when opening   
-        /*modal.style.opacity = 1;*/     
+        modal.classList.add('modal-open-state'); // Add the class when opening
+        /*modal.style.opacity = 1;*/
     }
 
     // Function to close the modal
@@ -129,14 +128,14 @@ document.addEventListener('DOMContentLoaded', function () {
         modal.classList.remove('modal-open-state'); // Remove the class when closing
         /*modal.style.opacity = 0;*/
     }
-        
-    // Event listener to open the modal when the "Contact" link is clicked
+
+    // Event listener to open the modal when the "Open Modal" button is clicked
     openModalBtn.addEventListener('click', function (event) {
         event.preventDefault(); // Prevent the default link behavior
         openModal();
     });
 
-    // Event listener to close the modal when the close button is clicked
+    // Event listener to close the modal when the "Close" button is clicked
     closeModalBtn.addEventListener('click', closeModal);
 
     // Close the modal if the user clicks outside of it
@@ -146,6 +145,42 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 });
+
+/* MODAL AJAX TAXO DATA FETCH */
+document.addEventListener('DOMContentLoaded', function () {
+    var singleButton = document.getElementById('single-contact-button');
+    let modal = document.getElementById('modal-container');
+
+    if (singleButton) {
+        singleButton.addEventListener('click', function () {
+            var postID = singleButton.getAttribute('data-post-id'); // Corrected variable name
+
+            var xhr = new XMLHttpRequest();
+
+            xhr.open('POST', '/wp-admin/admin-ajax.php', true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4 && xhr.status === 200) {
+                    var response = JSON.parse(xhr.responseText);
+
+                    // Populate the form field in modal
+                    var modalReferenceField = document.getElementById('modal-reference-field');
+                    if (modalReferenceField) {
+                        modalReferenceField.value = response.reference;
+                    }
+
+                    // Open the modal here
+                    openModal();
+                }
+            };
+
+            var data = 'action=get_reference_term_data&post_id=' + postID;
+            xhr.send(data);
+        });
+    }
+});
+
 
 
 
