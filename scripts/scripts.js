@@ -119,14 +119,12 @@ document.addEventListener('DOMContentLoaded', function () {
     function openModal() {
         modal.style.display = 'block';
         modal.classList.add('modal-open-state'); // Add the class when opening
-        /*modal.style.opacity = 1;*/
     }
 
     // Function to close the modal
     function closeModal() {
         modal.style.display = 'none';
         modal.classList.remove('modal-open-state'); // Remove the class when closing
-        /*modal.style.opacity = 0;*/
     }
 
     // Event listener to open the modal when the "Open Modal" button is clicked
@@ -144,16 +142,13 @@ document.addEventListener('DOMContentLoaded', function () {
             closeModal();
         }
     });
-});
 
-/* MODAL AJAX TAXO DATA FETCH */
-document.addEventListener('DOMContentLoaded', function () {
+    // MODAL AJAX TAXO DATA FETCH
     var singleButton = document.getElementById('single-contact-button');
-    let modal = document.getElementById('modal-container');
 
     if (singleButton) {
         singleButton.addEventListener('click', function () {
-            var postID = singleButton.getAttribute('data-post-id'); // Corrected variable name
+            var postID = singleButton.getAttribute('data-post-id');
 
             var xhr = new XMLHttpRequest();
 
@@ -170,7 +165,7 @@ document.addEventListener('DOMContentLoaded', function () {
                         modalReferenceField.value = response.reference;
                     }
 
-                    // Open the modal here
+                    // Open the modal
                     openModal();
                 }
             };
@@ -180,6 +175,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
 
 
 
