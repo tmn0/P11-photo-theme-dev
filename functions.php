@@ -4,17 +4,20 @@
 /*-------------*/
 /* Enqueueing */
 function photo_theme_register_assets() {
-    // Enqueue the JavaScript file
-    wp_enqueue_script('scripts', get_template_directory_uri() . '/scripts/script.js', array('jquery'), '1.0', true);
-
+   
     // Enqueue the main stylesheet
-    wp_enqueue_style('theme-main', get_stylesheet_uri()); // Use get_stylesheet_uri() to get the main stylesheet
+    wp_enqueue_style('theme-main', get_stylesheet_uri());
 
-    // jQuery is already included in WordPress by default, no need to enqueue it again
+    // Enqueue your custom script and then localize it
+    wp_enqueue_script('custom-scripts', get_template_directory_uri() . '/scripts/scripts.js', array('jquery'), null, true);
 
-    // You can't pass 'enqueue_jquery' as the fourth argument for add_action, it's not needed.
+    wp_localize_script('custom-scripts', 'loadmoreposts', array(
+        'ajaxurl' => admin_url('admin-ajax.php'),
+    ));
 }
+
 add_action('wp_enqueue_scripts', 'photo_theme_register_assets');
+
 
 
 
@@ -212,6 +215,68 @@ add_filter('wp_get_attachment_image_attributes', 'remove_image_size_attributes')
 /*-------------*/
 /*-------------*/
 /* AJAX / LOAD MORE BUTTON */ 
+function load_more_posts() {
+    $page = $_POST['page'];
+    $posts_per_page = 8;
+
+    $custom_query_args = array(
+        'post_type' => 'photo',
+        'posts_per_page' => $posts_per_page,
+        'paged' => $page,
+    );
+
+    $custom_query = new WP_Query($custom_query_args);
+
+    if ($custom_query->have_posts()) :
+        while ($custom_query->have_posts()) : $custom_query->the_post();
+            // Your loop content here
+        endwhile;
+        wp_reset_postdata();
+    else :
+        // No more posts to load
+        echo '0';
+    endif;
+
+    die();
+}
+
+add_action('wp_ajax_load_more_posts', 'load_more_posts'); // for logged-in users
+add_action('wp_ajax_nopriv_load_more_posts', 'load_more_posts'); // for non-logged-in users
+
+
+/* AJAX / LOAD MORE BUTTON TEST 2*/
+/* 
+function load_more_posts() {
+    $page = $_POST['page'];
+    $custom_query_args = array(
+        'post_type' => 'photo',
+        'posts_per_page' => 8,
+        'paged' => $page,
+    );
+
+    // Create a new custom query
+    $custom_query = new WP_Query($custom_query_args);
+
+    if ($custom_query->have_posts()) :
+        while ($custom_query->have_posts()) :
+            $custom_query->the_post();
+
+            // Output the content of each post as you did in your initial loop
+
+        endwhile;
+        wp_reset_postdata();
+    else :
+        echo 'No more posts found';
+        error_log('No more posts found'); // Log the error message
+    endif;
+    
+    die(); // This is important to end the AJAX response.
+}
+
+add_action('wp_ajax_load_more_posts', 'load_more_posts'); // For logged-in users
+add_action('wp_ajax_nopriv_load_more_posts', 'load_more_posts'); // For non-logged-in users
+
+
 function load_more_posts_scripts() {
     wp_enqueue_script('load-more-posts', get_template_directory_uri() . '/scripts/scripts.js', array('jquery'), '1.0', true);
     wp_localize_script('load-more-posts', 'loadmoreposts', array(
@@ -219,37 +284,10 @@ function load_more_posts_scripts() {
     ));
 }
 add_action('wp_enqueue_scripts', 'load_more_posts_scripts');
-
+*/
 
 /*-------------*/
-function load_more_posts() {
-    $page = $_POST['page'];
-
-    $args = array(
-        'post_type' => 'photo',
-        'posts_per_page' => 8,
-        'paged' => $page,
-    );
-
-    $custom_query = new WP_Query($args);
-
-    if ($custom_query->have_posts()) :
-        while ($custom_query->have_posts()) :
-            $custom_query->the_post();
-            // Display the content of the post as you did before
-        endwhile;
-    endif;
-
-    wp_reset_postdata();
-
-    die();
-}
-
-add_action('wp_ajax_load_more_posts', 'load_more_posts'); // For logged in users
-add_action('wp_ajax_nopriv_load_more_posts', 'load_more_posts'); // For non-logged in users
-
-
-
+/*-------------*/
 //AJAX / BUTTON TAXO DATA FETCH
 function get_reference_term_data() {
     // Get the post ID from the AJAX request
@@ -271,3 +309,17 @@ function get_reference_term_data() {
 
 add_action('wp_ajax_get_reference_term_data', 'get_reference_term_data');
 add_action('wp_ajax_nopriv_get_reference_term_data', 'get_reference_term_data');
+
+
+
+//SINGLE ECTION 2 NEXT IMAGE
+function get_first_image_from_content($content) {
+    $pattern = '/<img[^>]+src=[\'"]([^\'"]+)[\'"][^>]*>/';
+    preg_match($pattern, $content, $matches);
+
+    if (isset($matches[1])) {
+        return '<img src="' . esc_url($matches[1]) . '">';
+    }
+
+    return ''; // Return an empty string if no image is found
+}

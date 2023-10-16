@@ -53,13 +53,51 @@ document.addEventListener("DOMContentLoaded", function() {
     });
 
 
+
 /*----Load more behaviour----*/
+/*
+document.addEventListener('DOMContentLoaded', function() {
+    var page = 1; // Initialize the page number
+
+    var loadMoreButton = document.getElementById('home-load-more-button');
+    var masonryGrid = document.querySelector('#front-masonry .home-masonry-grid');
+
+    loadMoreButton.addEventListener('click', function() {
+        page++; // Increment the page number
+
+        var xhr = new XMLHttpRequest();
+        var data = new FormData();
+        data.append('action', 'load_more_posts');
+        data.append('page', page);
+
+        xhr.open('POST', loadmoreposts.ajaxurl, true);
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4 && xhr.status === 200) {
+                var response = xhr.responseText;
+                if (response) {
+                    // Create a temporary container for the new posts
+                    var tempDiv = document.createElement('div');
+                    tempDiv.innerHTML = response;
+
+                    // Append the new posts to the masonry grid
+                    masonryGrid.appendChild(tempDiv);
+
+                    // Remove the temporary container
+                    tempDiv = null;
+                } else {
+                    loadMoreButton.style.display = 'none'; // Hide the button when no more posts are available
+                }
+            }
+        };
+
+        xhr.send(data);
+    });
+});
+*/
+
+/*----Load more behaviour TEST 2----*/
+
 document.addEventListener('DOMContentLoaded', function () {
-
-var loadmoreposts = {
-    ajaxurl: '' /* TO DO */
-};
-
     ( function( $ ) {
         jQuery(function ($) {
             var page = 2; // The initial page number
@@ -77,7 +115,7 @@ var loadmoreposts = {
                     $.ajax({
                         type: 'POST',
                         dataType: 'html',
-                        url: loadmoreposts.ajaxurl,
+                        url: loadmoreposts.ajaxurl, // Use the ajaxurl from loadmoreposts
                         data: data,
                         success: function (response) {
                             $('.home-masonry-grid').append(response); // Append the new posts
@@ -90,6 +128,10 @@ var loadmoreposts = {
         });
     } )( jQuery );
 });
+
+/*----Load more behaviour TEST 2----*/
+
+
 
 /* document.addEventListener('DOMContentLoaded', function () {
     // Add click event handler to show content

@@ -76,6 +76,7 @@ echo '</div>';
 
 <!-- Section 2 -->
 <section id="single-contact-shortcut-main-container">
+
     <div id="single-contact-shortcut-left-container">
         <div id="single-contact-shortcut-text-container">
             <p>Cette photo vous intéresse ?</p>
@@ -90,31 +91,20 @@ echo '</div>';
         <div id="single-contact-shortcut-right-inner-container">
         <div class="single-contact-shortcut-nav-img">
             <?php
-            $post_id = get_the_ID();
+            $current_post_id = get_the_ID();
 
-            // Retrieve all images attached to the post
-            $attachments = get_posts(array(
-                'post_type' => 'attachment',
-                'posts_per_page' => -1,
-                'post_parent' => $post_id,
-            ));
+            // Retrieve the next "photo" post
+            $next_photo = get_next_post(true, '', 'photo');
 
-            // Find the current image's position
-            $current_image_index = 0;
-            $current_image_id = get_post_thumbnail_id();
-            foreach ($attachments as $index => $attachment) {
-                if ($attachment->ID == $current_image_id) {
-                    $current_image_index = $index;
-                    break;
+            if ($next_photo) {
+                // Extract the image from the next "photo" post's content
+                $next_photo_content = apply_filters('the_content', $next_photo->post_content);
+                $next_photo_image = get_first_image_from_content($next_photo_content);
+
+                // Display the next photo's image
+                if (!empty($next_photo_image)) {
+                    echo $next_photo_image;
                 }
-            }
-
-            // Calculate the index of the next image
-            $next_image_index = $current_image_index + 1;
-
-            // Check if the next image exists and display it
-            if (isset($attachments[$next_image_index])) {
-                echo wp_get_attachment_image($attachments[$next_image_index]->ID, 'large');
             }
             ?>
         </div>
@@ -125,6 +115,7 @@ echo '</div>';
         </div>
     </div>
     </div>
+
 </section>
 
 

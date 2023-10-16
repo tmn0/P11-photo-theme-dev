@@ -3,6 +3,13 @@
 </header>
 <?php get_template_part('template-part/navmenu'); ?>
 <?php get_template_part('template-part/hero'); ?>
+
+<script type="text/javascript">
+    var loadmoreposts = {
+        ajaxurl: '<?php echo admin_url('admin-ajax.php'); ?>'
+    };
+</script>
+
 </header>
 
 <div class="home-container">
@@ -56,7 +63,9 @@
 
     </div> <!-- End of taxonomy-selector-main-container -->
 
-    <!-- Custom post + masonry -->
+
+
+<!-- Custom post + masonry grid-->
 <section id="front-masonry">
     <?php
     $custom_query_args = array(
@@ -84,22 +93,52 @@
             // Get the permalink of the post
             $post_permalink = get_permalink();
 
-            // Open a grid item and wrap it in an anchor tag with target="_blank"
-            echo '<a href="' . esc_url($post_permalink) . '" class="home-masonry-item" target="_blank">';
+            // Open a grid item
+            echo '<div class="home-masonry-item">';
 
+            // Open a container div for the content, including title, category, and post content
+            echo '<div class="masonry-photo-details">';
+
+            // Open a div for lightbox icon
+            echo '<div class="expand-icon-container"><i class="fa-solid fa-expand"></i></div>';
+
+            // Open an anchor tag with target="_blank" for the icon
+            echo '<a href="' . esc_url($post_permalink) . '" target="_blank" class="icon-link">';
+
+            // Add the Font Awesome icon within a div
+            echo '<div class="eye-icon-container"><i class="fa-regular fa-eye"></i></div>';
+
+            // Close the anchor tag for the icon
+            echo '</a>';
             
+
+            // Display the custom post "photo" title
+            echo '<p class="masonry-photo-title">' . get_the_title() . '</p>';
+
+            // Fetch the custom taxonomy "categorie"
+            $categories = get_the_terms(get_the_ID(), 'categorie');
+            if ($categories) {
+                echo '<div class="masonry-photo-category">';
+                foreach ($categories as $category) {
+                    echo '<span class="category">' . $category->name . '</span>';
+                }
+                echo '</div>';
+            }
+            // Close the container div photo-details
+            echo '</div>';
+
             // Display the content of the post
             the_content();
-
-            // Close the anchor tag and the grid item
-            echo '</a>';
-
             
+
+            // Close the grid item
+            echo '</div>';
+
             // Check if it's time to start a new row
             if ($item_count % 2 === 0) {
                 echo '<div class="home-masonry-fix"></div>';
             }
-            
+
         endwhile;
 
         // Close the grid container
@@ -117,6 +156,7 @@
         <button id="home-load-more-button" class="more-button" data-page="1">Charger plus</button>
     </div>
 </section>
+
 
 </div> <!-- Close home-container -->
 

@@ -280,7 +280,8 @@ a:hover {
     overflow: hidden;
     display: flex;   
     width: 45%; 
-    height: 500px
+    height: 500px;
+    position: relative; /* Positioning for childs */
     /*-- Bug: design / masonry item --*/   
 }
 
@@ -311,6 +312,85 @@ a:hover {
     clear: both;
 }
 
+
+/*-----------------------*/
+/*----FRONT PAGE MASONRY // IMAGE DETAILS----*/
+.masonry-photo-details {
+    position: absolute;      
+    z-index: 1; 
+    width: 100%;
+    height: 100%;
+    color: white;
+    transition: .33s;
+    opacity: 0; /*1 for prod*/
+}
+
+.expand-icon-container {
+    position: absolute;
+    right: 2.5%;
+    top: 2.5%;
+    font-size: 45px;  
+    transition: .5s;  
+    opacity: .66;  
+    background-color: #00000089;
+    border-radius: 45%; /* Use 50% for a fully rounded background */
+    padding-left: 10px;        
+    padding-right: 10px;   
+    padding-top: 5px;
+    padding-bottom: 5px; 
+}
+
+.eye-icon-container {
+    position: absolute; 
+    display: flex;
+    left: 50%;
+    top: 50%;
+    transform: translate(-50%, -50%); /* 2nd pass for centering */    
+    font-size: 66px;    
+    transition: .5s;   
+    opacity: .66; 
+}
+
+.masonry-photo-title {
+    position: absolute; 
+    display: flex;
+    bottom: 1%;
+    left: 2.5%;
+    flex: 1;
+    font-family: "Poppins";
+    margin: 0%;
+    padding: 0%;
+    padding-left: 5px;
+    padding-right: 5px;
+    background: #00000013;    
+}
+
+.masonry-photo-category {
+    position: absolute; 
+    display: flex;
+    bottom: 1%;
+    right: 2.5%;
+    padding-left: 5px;
+    padding-right: 5px;
+    flex: 1;
+    font-family: "Space Mono";
+    background: #00000025;
+}
+
+
+.masonry-photo-details:hover {
+    opacity: 1;
+}
+
+.expand-icon-container:hover {
+    color: #215AFF;
+    opacity: 1;
+}
+
+.eye-icon-container:hover {    
+    color: #215AFF;
+    opacity: 1;
+}
 
 /*-----------------------*/
 /*----FRONT PAGE BUTTONS / TAXONOMY----*/
