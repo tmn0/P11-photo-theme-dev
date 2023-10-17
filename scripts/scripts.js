@@ -185,7 +185,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // MODAL AJAX TAXO DATA FETCH
+    // MODAL AJAX TAXO DATA FETCH / SINGLE
     var singleButton = document.getElementById('single-contact-button');
 
     if (singleButton) {
@@ -219,7 +219,23 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
+/* SINGLE MORE IMAGES BEHAVIOUR*/
+// Select all elements with the "dynamic-image" class
+var dynamicImages = document.getElementsByClassName('dynamic-image');
 
+// Loop through the elements and access their IDs and content
+for (var i = 0; i < dynamicImages.length; i++) {
+    var image = dynamicImages[i];
+    var imageId = image.id; // Get the ID of the element
+    var imageContent = image.innerHTML; // Get the content of the element
+
+    // Now you can work with each dynamic image element as needed
+    console.log('ID: ' + imageId);
+    console.log('Content: ' + imageContent);
+
+    // You can change content or perform other actions as required
+    // image.innerHTML = 'New content for image with ID ' + imageId;
+}
 
 
 /*
@@ -247,4 +263,6 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 });
 */
+
+
 

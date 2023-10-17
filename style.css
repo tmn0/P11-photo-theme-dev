@@ -472,7 +472,7 @@ a:hover {
     background-color: white;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
-    z-index: 1;
+    z-index: 3;
     width: 200px; /* width problem ?*/
 }   
 
@@ -644,6 +644,9 @@ a:hover {
 #single-section3-main-container {
     padding-top: 50px;
     padding-bottom: 50px;
+    padding-left: 0%;
+    padding-right: 0%;
+    margin: 0%;    
 }
 
 #single-section3-title {
@@ -656,18 +659,68 @@ a:hover {
 #single-section3-image-container {
     height: 330px;
     display: flex;
-    justify-content: center;
-    align-items: center;
+    margin: 0;
+    padding: 0;  
+    width: 100%;
 }
 
-.image-wrapper {
-    max-width: 100%; /* Ensure images do not exceed their container width */
-    max-height: 100%; /* Ensure images do not exceed their container height */
-    margin: 10px;
+.dynamic-image {      
     display: flex;
-    align-items: center;
-    justify-content: center;
-    overflow: hidden; /* Hide any overflow if images are larger */
+    flex: 1;
+    position: relative;
+    overflow: hidden;     
+    margin: 0;
+    padding: 0;    
+    /* 
+    object-fit: contain; 
+    object-position: center center; 
+    */
+}
+
+.single-eye-icon-container {  
+    color: white;
+    position: absolute;
+    font-size: 66px;
+    z-index: 3;  
+    left: 53%;
+    top: 53%;
+    transform: translate(-53%, -53%);
+    transition: .66s;
+    opacity: 0;
+}
+
+
+.single-expand-icon-container {
+    color: white;
+    position: absolute;
+    font-size: 50px;
+    z-index: 3;    
+    left: 82%;
+    top: 7%;        
+    border-radius: 45%;
+    padding-left: 10px;
+    padding-right: 10px;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    transition: .66s;
+    opacity: 0;
+}
+
+.dynamic-image.left:hover .single-eye-icon-container,
+.dynamic-image.left:hover .single-expand-icon-container,
+.dynamic-image.right:hover .single-eye-icon-container,
+.dynamic-image.right:hover .single-expand-icon-container {
+    opacity: .9;
+}
+
+
+.single-eye-icon-container:hover {
+    color: #215AFF;    
+}
+
+.single-expand-icon-container:hover {
+    color: #215AFF;   
+    background: #00000066;
 }
 
 #single-section3-button-container {

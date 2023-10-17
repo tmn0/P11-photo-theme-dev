@@ -119,7 +119,7 @@ echo '</div>';
 </section>
 
 
-<!-- Section 3 -->
+
 <!-- Section 3 -->
 <section id="single-section3-main-container">
     <div id="single-section3-title">
@@ -151,27 +151,34 @@ echo '</div>';
             ));
 
             // If random images are found, display them
-            foreach ($random_images as $image) {
+            foreach ($random_images as $index => $image) {
                 $image_permalink = get_permalink($image->ID); // Get the URL to the individual post
                 $image_content = get_the_content(null, false, $image->ID);
+                $image_id = 'single-image-' . $image->ID; // Create a unique ID for each image using the post's ID
+                
+                
 
-                // Wrap the image in an anchor tag with target="_blank" and link to the individual post
-                echo '<a href="' . esc_url($image_permalink) . '" target="_blank" class="image-wrapper">' . $image_content . '</a>';
+                // Determine if it's the left or right image
+                $position_class = ($index == 0) ? 'left' : 'right';                    
+                
+                // Image content
+                echo '<div id="' . $image_id . '" class="dynamic-image ' . $position_class . '">' . $image_content ;
+                
+                // Open an anchor tag with target="_blank" for the eye icon
+                echo '<a href="' . esc_url($image_permalink) . '" target="_blank" class="icon-link">';                 
+                echo '<div class="single-eye-icon-container ' . $position_class . '"><i class="fa-regular fa-eye"></i></div>';
+                echo '</a>';
+                // Expand icon
+                echo '<div class="single-expand-icon-container ' . $position_class . '"><i class="fa-solid fa-expand"></i></div>';
+                echo '</div>';    
             }
         } else {
             // Handle the case where the current post doesn't have a category
             echo "No category found for this post.";
         }
         ?>
-    </div>
-
-    <div id="single-section3-button-container">
-        <button id="single-section3-button" class="more-button">Toutes les photos</button>
-    </div>
+    </div> <!-- "single-section3-image-container" -->
 </section>
-
-
-
 
 
 
