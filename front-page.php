@@ -16,21 +16,23 @@
     <!-- Buttons & Filters -->
     <div class="taxonomy-selector-main-container">
         <div class="taxonomy-selector-left-container">
+
             <!-- Button 1 -->
             <div class="taxonomy-button-container">
-                <button class="home-button" id="front-taxo-button1">
+                <button class="home-button" id="front-taxo-button1">                
                     <p class="home-button-title">CATÉGORIES</p>
                     <div class="fa-caret-container">
                         <i class="fa-solid fa-caret-down"></i>
                     </div>
                 </button>
                 <div class="home-dropdown" id="front-dropdown1">
-                    <a href="#">Réception</a>
-                    <a href="#">Télévision</a>
-                    <a href="#">Concert</a>
-                    <a href="#">Mariage</a>
+                    <a href="#" data-category="Réception">Réception</a>
+                    <a href="#" data-category="Télévision">Télévision</a>
+                    <a href="#" data-category="Concert">Concert</a>
+                    <a href="#" data-category="Mariage">Mariage</a>
                 </div>
             </div>
+
             <!-- Button 2 -->
             <div id="format-button" class="taxonomy-button-container">
                 <button class="home-button" id="front-taxo-button2">
@@ -70,7 +72,7 @@
     <?php
     $custom_query_args = array(
         'post_type' => 'photo',
-        'posts_per_page' => 8,
+        'posts_per_page' => 10,
     );
 
     // Create a new custom query

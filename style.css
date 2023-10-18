@@ -661,7 +661,8 @@ a:hover {
     display: flex;
     margin: 0;
     padding: 0;  
-    width: 100%;
+    width: 100%;    
+    
 }
 
 .dynamic-image {      
@@ -670,12 +671,28 @@ a:hover {
     position: relative;
     overflow: hidden;     
     margin: 0;
-    padding: 0;    
-    /* 
-    object-fit: contain; 
-    object-position: center center; 
-    */
+    padding: 0;          
 }
+
+.dynamic-image img {
+    transition: .4s;    
+}
+
+.dynamic-image:hover img {    
+    transform: scale(1.05);
+}
+
+#single-section3-image-container img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;    
+} 
+
+/*
+#single-section3-image-container .wp-block-image {
+    overflow: hidden;
+}
+*/
 
 .single-eye-icon-container {  
     color: white;
@@ -689,15 +706,15 @@ a:hover {
     opacity: 0;
 }
 
-
 .single-expand-icon-container {
     color: white;
     position: absolute;
     font-size: 50px;
     z-index: 3;    
-    left: 82%;
-    top: 7%;        
+    right: 10%;
+    top: 5%;        
     border-radius: 45%;
+    margin: 5px;
     padding-left: 10px;
     padding-right: 10px;
     padding-top: 5px;
@@ -722,6 +739,7 @@ a:hover {
     color: #215AFF;   
     background: #00000066;
 }
+
 
 #single-section3-button-container {
     display: flex;

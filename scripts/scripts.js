@@ -50,11 +50,121 @@ document.addEventListener("DOMContentLoaded", function() {
         }
         isRotated = !isRotated;
     });
+});
+
+
+
+/*----Front page Taxo button 1 categorie / Dropdown sorting----*/
+document.addEventListener("DOMContentLoaded", function() {
+    var dropdownOptions = document.querySelectorAll("#front-dropdown1 a"); // Select all dropdown options
+    
+    dropdownOptions.forEach(function(option) {
+        option.addEventListener("click", function(event) {
+            event.preventDefault();
+            var selectedCategory = option.getAttribute("data-category");
+            filterMasonryGrid(selectedCategory);
+
+            // debugging
+            console.log("Selected Category:", selectedCategory); 
+            filterMasonryGrid(selectedCategory);
+
+        });
     });
 
+    function filterMasonryGrid(category) {
+        // Get all masonry items
+        var masonryItems = document.querySelectorAll(".home-masonry-item");
+
+        masonryItems.forEach(function(item) {
+            var categories = item.querySelectorAll(".category");
+            var isCategoryFound = false;
+
+            categories.forEach(function(cat) {
+                if (cat.textContent.trim() === category) {
+                    isCategoryFound = true;
+                }
+            });
+
+            if (isCategoryFound) {
+                item.style.display = "block"; // Show the item
+            } else {
+                item.style.display = "none"; // Hide the item                
+            }
+        });
+    }
+});
 
 
-/*----Load more behaviour----*/
+
+/* JQUERY IS BUGGY  */
+/*
+jQuery(document).ready(function($) {
+    // Handle the click event on the category button
+    $('#front-taxo-button1').on('click', function(e) {
+        e.preventDefault();
+
+        // Get the selected category from the button's text
+        var category = $.trim($(this).find('.home-button-title').text());
+
+        // Send an AJAX request to retrieve posts based on the selected category
+        $.ajax({
+            type: 'POST',
+            url: custom_script_data.ajax_url,
+            data: {
+                action: 'filter_posts',
+                category: category,
+            },
+            success: function(response) {
+                // Update the masonry grid with the filtered posts
+                $('#front-masonry').html(response);
+            },
+        });
+    });
+});
+*/
+
+
+
+
+/*----Front page Load more button----*/
+jQuery(document).ready(function($) {
+    var page = 2;
+
+    $('#home-load-more-button').on('click', function() {
+        var data = {
+            action: 'load_more_posts',
+            page: page
+        };
+
+        $.ajax({
+            url: ajaxurl,
+            data: data,
+            type: 'POST',
+            success: function(response) {
+                // DEBUGGING Log the AJAX response to the console
+                console.log('AJAX response:', response);
+
+                // Append the new posts to the grid container
+                $('.home-masonry-grid').append(response);
+
+                page++;
+
+                if (response === '') {
+                    $('#home-load-more-button').hide();
+                }
+            },
+            // DEBUGGING
+            error: function(jqXHR, textStatus, errorThrown) {
+                console.error('AJAX request failed:', errorThrown);
+            }
+        });
+    });
+});
+
+
+
+
+/*----Load more behaviour test 2----*/
 /*
 document.addEventListener('DOMContentLoaded', function() {
     var page = 1; // Initialize the page number
@@ -95,8 +205,10 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 */
 
-/*----Load more behaviour TEST 2----*/
 
+
+
+/*----Load more behaviour TEST 3----
 document.addEventListener('DOMContentLoaded', function () {
     ( function( $ ) {
         jQuery(function ($) {
@@ -128,8 +240,8 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     } )( jQuery );
 });
+*/
 
-/*----Load more behaviour TEST 2----*/
 
 
 

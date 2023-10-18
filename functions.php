@@ -2,21 +2,29 @@
 
 /*-------------*/
 /*-------------*/
-/* Enqueueing */
-function photo_theme_register_assets() {
-   
-    // Enqueue the main stylesheet
+/*Register assets*/
+function photo_theme_register_assets() {   
     wp_enqueue_style('theme-main', get_stylesheet_uri());
 
-    // Enqueue your custom script and then localize it
-    wp_enqueue_script('custom-scripts', get_template_directory_uri() . '/scripts/scripts.js', array('jquery'), null, true);
+    /*
+    // Enqueue the default jQuery library included with WordPress
+    wp_enqueue_script('jquery');
+    */
+    
+    // Enqueue custom jQuery library (+ override WP base jQuery)
+    wp_enqueue_script('custom-jquery', get_template_directory_uri() . '/scripts/jquery-3.7.1.min.js', array(), null, true);
 
-    wp_localize_script('custom-scripts', 'loadmoreposts', array(
-        'ajaxurl' => admin_url('admin-ajax.php'),
+    // Enqueue custom JavaScript file + custom-jquery as dependency
+    wp_enqueue_script('custom-scripts', get_template_directory_uri() . '/scripts/scripts.js', array('custom-jquery'), '1.0', true);
+
+    // Localize data for the script
+    wp_localize_script('custom-scripts', 'custom_script_data', array(
+        'ajax_url' => admin_url('admin-ajax.php'),
     ));
 }
 
 add_action('wp_enqueue_scripts', 'photo_theme_register_assets');
+
 
 
 
@@ -41,6 +49,7 @@ function theme_menus() {
 add_action('init', 'theme_menus');
 
 
+
 /*-------------*/
 /*-------------*/
 /* Selectable hero img in wordpress */
@@ -57,6 +66,8 @@ function custom_theme_support() {
     ));
 }
 add_action('after_setup_theme', 'custom_theme_support');
+
+
 
 
 /*-------------*/
@@ -97,7 +108,7 @@ class Walker_Main_Menu extends Walker_Nav_Menu {
 }
 
 
-/* Contact shortcode register*/
+/* Contact shortcode register (redondant w/ plugin code ?)*/
 
 /*
 function custom_register_wpforms_shortcode() {
@@ -146,8 +157,7 @@ add_filter('the_content', 'filter_content_example');
 
 /*-------------*/
 /*-------------*/
-/* Custom post type photo */ 
-
+/* Custom post type photo config*/ 
 function custom_photo_post_type() {
 $args = array(
     'public' => true,
@@ -172,10 +182,10 @@ add_action('init', 'custom_register_photo_post_type');
 
 
 
+
 /*-------------*/
 /*-------------*/
 /* WP IMG CLASS REMOVE-REPLACE */ 
-
 function custom_modify_post_content($content) {
     
     $content = preg_replace('/<figure(.*?)>(.*?)<\/figure>/i', '<div$1>$2</div>', $content);
@@ -214,7 +224,82 @@ add_filter('wp_get_attachment_image_attributes', 'remove_image_size_attributes')
 
 /*-------------*/
 /*-------------*/
-/* AJAX / LOAD MORE BUTTON */ 
+/* AJAX / FRONT PAGE TAXO BUTTON 1 Categorie*/  
+
+
+
+/* JQUERY IS BUGGY  */
+/*
+jQuery(document).ready(function($) {
+    // Handle the click event on the category button
+    $('#front-taxo-button1').on('click', function(e) {
+        e.preventDefault();
+
+        // Get the selected category from the button's text
+        var category = $.trim($(this).find('.home-button-title').text());
+
+        // Send an AJAX request to retrieve posts based on the selected category
+        $.ajax({
+            type: 'POST',
+            url: custom_script_data.ajax_url,
+            data: {
+                action: 'filter_posts',
+                category: category,
+            },
+            success: function(response) {
+                // Update the masonry grid with the filtered posts
+                $('#front-masonry').html(response);
+            },
+        });
+    });
+});
+*/
+
+
+
+
+/*-------------*/
+/*-------------*/
+/* AJAX / FRONT PAGE LOAD MORE BUTTON */  
+function load_more_posts() {
+    $page = $_POST['page'];
+
+    /*DEBUGGING*/
+    error_log('load_more_posts function called, page = ' . $page);
+    // Debug the data
+    error_log('Data received in the AJAX request:');
+    error_log(print_r($_POST, true));
+    /*DEBUGGING*/
+    
+    $custom_query_args = array(
+        'post_type' => 'photo',
+        'posts_per_page' => 10,
+        'paged' => $page
+    );
+
+    $custom_query = new WP_Query($custom_query_args);
+
+    if ($custom_query->have_posts()) {
+        while ($custom_query->have_posts()) {
+            $custom_query->the_post();
+            // Output the HTML for each new post
+            // This should match the structure used in your initial code
+        }
+
+        wp_reset_postdata();
+    } else {
+        echo ''; // No more posts to load
+    }
+
+    die(); // Always end with die() for AJAX requests
+}
+
+add_action('wp_ajax_load_more_posts', 'load_more_posts');
+add_action('wp_ajax_nopriv_load_more_posts', 'load_more_posts');
+
+
+
+/* AJAX / LOAD MORE BUTTON test
 function load_more_posts() {
     $page = $_POST['page'];
     $posts_per_page = 8;
@@ -242,7 +327,7 @@ function load_more_posts() {
 
 add_action('wp_ajax_load_more_posts', 'load_more_posts'); // for logged-in users
 add_action('wp_ajax_nopriv_load_more_posts', 'load_more_posts'); // for non-logged-in users
-
+*/
 
 /* AJAX / LOAD MORE BUTTON TEST 2*/
 /* 
@@ -312,7 +397,7 @@ add_action('wp_ajax_nopriv_get_reference_term_data', 'get_reference_term_data');
 
 
 
-//SINGLE ECTION 2 NEXT IMAGE
+//SINGLE PAGE - SECTION 2 NEXT IMAGES
 function get_first_image_from_content($content) {
     $pattern = '/<img[^>]+src=[\'"]([^\'"]+)[\'"][^>]*>/';
     preg_match($pattern, $content, $matches);
