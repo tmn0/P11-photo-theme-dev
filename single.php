@@ -5,68 +5,94 @@
 </header>
 
 <div id="single-global-container">
-<section id="single-content">
 
+<section id="single-content">
     <div class="single-content-left">
         <?php 
         while (have_posts()) :
             the_post();
         ?>
 
-        <div id="post-<?php the_ID(); ?>" <?php post_class(); ?>>
-             <h1><?php echo strtoupper(get_the_title()); ?></h1>
-        </div>
+        
+
+    <?php
+    // Custom taxo 0 acf
+    $terms_reference = get_field('reference');
+    // Custom taxo 1
+    $terms_categorie = get_the_terms(get_the_ID(), 'categorie');
+    // Custom taxo 2
+    $terms_format = get_the_terms(get_the_ID(), 'format');
+    // Custom taxo 3 BUG
+    /* $terms_types = get_the_terms(get_the_ID(), 'type');
+    */
+    // Taxo 4 date
+    $post_date = get_the_date('Y');
+
+    // Call custom taxos & title
+    echo '<div class="single-taxos-container">';
+
+    echo '<div><h1>' . get_the_title() . '</h1></div>';
+
+
+    if ($terms_reference) {
+        echo '<div class="taxo-item"><span class="label">Référence:&nbsp;</span>';
+        echo '<span class="value">' . $terms_reference . '</span></div>';
+    }
+
+    if ($terms_categorie) {
+        echo '<div class="taxo-item"><span class="label">Catégorie:&nbsp;</span>';
+        echo '<span class="value">';
+        foreach ($terms_categorie as $term) {
+            echo $term->name;
+        }
+        echo '</span></div>';
+    }
+
+    if ($terms_format) {
+        echo '<div class="taxo-item"><span class="label">Format:&nbsp;</span>';
+        echo '<span class="value">';
+        foreach ($terms_format as $term) {
+            echo $term->name;
+        }
+        echo '</span></div>';
+    }
+
+    echo '<div class="taxo-item"><span class="label">Année:&nbsp;</span>';
+    echo '<span class="value">' . $post_date . '</span></div>';
+
+    /* Uncomment if needed
+    if ($terms_types) {
+        echo '<div class="taxo-item"><span class="label">Type:&nbsp;</span>';
+        echo '<span class="value">';
+        foreach ($terms_types as $term) {
+            echo $term->name . ', ';
+        }
+        echo '</span></div>';
+    }
+    */
+
+
+    echo '</div></div>';
+    // div single-taxos-container & single-content-left
+    ?> 
+
+
+
+    
+    <?php // single-content-right    
+        $post_id = get_the_ID();
+    ?>
+    
+    <div class="single-content-right">    
+        <div class="single-expand-icon-container expand-icon"
+        data-post-id="<?php echo $post_id; ?>">
+        <i class="fa-solid fa-expand"></i>
     </div>
-
-
-<?php
-// Custom taxo 0 acf
-$terms_reference = get_field('reference');
-// Custom taxo 1
-$terms_categorie = get_the_terms(get_the_ID(), 'categorie');
-// Custom taxo 2
-$terms_format = get_the_terms(get_the_ID(), 'format');
-// Custom taxo 3
-// $terms_type = get_the_terms(get_the_ID(), 'type');
-
-// Call custom taxos
-echo '<div class="single-taxos-container">';
-
-
-if ($terms_reference) {
-    echo '<div><p>Référence:&nbsp;</p>';    
-        echo '<p>'. $terms_reference . '</p>';    
-    echo '</div>';
-}
-
-
-if ($terms_categorie) {
-    echo '<div><p>Categorie:&nbsp;</p>';
-    foreach ($terms_categorie as $term) {
-        echo '<p>' . $term->name . '</p>';
-    }
-    echo '</div>';
-
-}
-
-if ($terms_format) {
-    echo '<div><p>Format:&nbsp;</p>';
-    foreach ($terms_format as $term) {
-        echo '<p>' . $term->name . '</p>';
-    }
-    echo '</div>';
-}
-
-
-echo '</div>';
-
-
-?>
-
-    <div class="single-content-right">        
+                 
+                 
         <?php the_content(); ?>                
     </div>
-
+    
         <?php
         endwhile;
         ?>
@@ -155,21 +181,23 @@ echo '</div>';
                 $image_permalink = get_permalink($image->ID); // Get the URL to the individual post
                 $image_content = get_the_content(null, false, $image->ID);
                 $image_id = 'single-image-' . $image->ID; // Create a unique ID for each image using the post's ID
+                $post_id = $image->ID; // Get the post ID for the expand icon
                 
-                
-
                 // Determine if it's the left or right image
                 $position_class = ($index == 0) ? 'left' : 'right';                    
-                
+
                 // Image content
                 echo '<div id="' . $image_id . '" class="dynamic-image ' . $position_class . '">' . $image_content ;
                 
                 // Open an anchor tag with target="_blank" for the eye icon
                 echo '<a href="' . esc_url($image_permalink) . '" target="_blank" class="icon-link">';                 
-                echo '<div class="single-eye-icon-container ' . $position_class . '"><i class="fa-regular fa-eye"></i></div>';
+                echo '<div class="single-eye-icon-container ' . $position_class . '">
+                <i class="fa-regular fa-eye"></i></div>';
                 echo '</a>';
-                // Expand icon
-                echo '<div class="single-expand-icon-container ' . $position_class . '"><i class="fa-solid fa-expand"></i></div>';
+                
+                // Expand icon with data-post-id attribute
+                echo '<div class="single-expand-icon-container expand-icon ' . $position_class . '
+                " data-post-id="' . $post_id . '"><i class="fa-solid fa-expand"></i></div>';
                 echo '</div>';    
             }
         } else {
@@ -179,6 +207,7 @@ echo '</div>';
         ?>
     </div> <!-- "single-section3-image-container" -->
 </section>
+
 
 
 

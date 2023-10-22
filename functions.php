@@ -371,9 +371,11 @@ function load_more_posts_scripts() {
 add_action('wp_enqueue_scripts', 'load_more_posts_scripts');
 */
 
+
+
 /*-------------*/
 /*-------------*/
-//AJAX / BUTTON TAXO DATA FETCH
+// AJAX / BUTTON TAXO DATA FETCH
 function get_reference_term_data() {
     // Get the post ID from the AJAX request
     $post_id = $_POST['post_id'];
@@ -397,7 +399,9 @@ add_action('wp_ajax_nopriv_get_reference_term_data', 'get_reference_term_data');
 
 
 
-//SINGLE PAGE - SECTION 2 NEXT IMAGES
+/*-------------*/
+/*-------------*/
+// SINGLE PAGE - SECTION 2 NEXT IMAGES
 function get_first_image_from_content($content) {
     $pattern = '/<img[^>]+src=[\'"]([^\'"]+)[\'"][^>]*>/';
     preg_match($pattern, $content, $matches);
@@ -407,4 +411,27 @@ function get_first_image_from_content($content) {
     }
 
     return ''; // Return an empty string if no image is found
+}
+
+
+
+/*-------------*/
+/*-------------*/
+// EXPAND ICON LIGHTBOX BEHAVIOUR
+add_action('wp_ajax_get_image_content', 'get_image_content');
+add_action('wp_ajax_nopriv_get_image_content', 'get_image_content');
+
+function get_image_content() {
+    $post_id = $_GET['post_id'];
+    $image_content = ''; // Initialize the variable to store the image content
+
+    // Check if the post with the provided ID exists and has the post type "photo"
+    $post = get_post($post_id);
+    if ($post && $post->post_type === 'photo') {
+        // If it's a "photo" post type, fetch the content
+        $image_content = $post->post_content;
+    }
+
+    echo $image_content;
+    wp_die(); // Always include this to end the AJAX request
 }

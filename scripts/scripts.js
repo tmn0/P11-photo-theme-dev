@@ -139,7 +139,7 @@ jQuery(document).ready(function($) {
         $.ajax({
             url: ajaxurl,
             data: data,
-            type: 'POST',
+            type: 'photo',
             success: function(response) {
                 // DEBUGGING Log the AJAX response to the console
                 console.log('AJAX response:', response);
@@ -149,9 +149,11 @@ jQuery(document).ready(function($) {
 
                 page++;
 
+                /*
                 if (response === '') {
                     $('#home-load-more-button').hide();
                 }
+                */
             },
             // DEBUGGING
             error: function(jqXHR, textStatus, errorThrown) {
@@ -263,6 +265,7 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 /*
 
+
 /* Modal */
 document.addEventListener('DOMContentLoaded', function () {
     let modal = document.getElementById('modal-container');
@@ -278,7 +281,7 @@ document.addEventListener('DOMContentLoaded', function () {
     // Function to close the modal
     function closeModal() {
         modal.style.display = 'none';
-        modal.classList.remove('modal-open-state'); // Remove the class when closing
+        // modal.classList.remove('modal-open-state'); // Remove the class when closing
     }
 
     // Event listener to open the modal when the "Open Modal" button is clicked
@@ -378,3 +381,38 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+// EXPAND ICON LIGHTBOX BEHAVIOUR 
+document.addEventListener('DOMContentLoaded', function () {
+    let lightbox = document.getElementById('lightbox');
+    let openLightboxBtns = document.getElementsByClassName('single-expand-icon-container');
+    let closelightboxBtn = document.getElementById('close-lightbox');
+
+    // Function to open the modal
+    function openLightbox() {
+        lightbox.style.display = 'block';       
+    }
+
+    // Function to close the modal
+    function closeLightbox() {
+        lightbox.style.display = 'none';
+        // modal.classList.remove('modal-open-state'); // Remove the class when closing
+    }
+
+    // Event listener to open the modal when the "Open Modal" buttons are clicked
+    for (let i = 0; i < openLightboxBtns.length; i++) {
+        openLightboxBtns[i].addEventListener('click', function (event) {
+            event.preventDefault(); // Prevent the default link behavior
+            openLightbox();
+        });
+    }
+
+    // Event listener to close the modal when the "Close" button is clicked
+    closelightboxBtn.addEventListener('click', closeLightbox);
+
+    // Close the modal if the user clicks outside of it
+    window.addEventListener('click', function (event) {
+        if (event.target === lightbox) {
+            closeLightbox();
+        }
+    });
+});

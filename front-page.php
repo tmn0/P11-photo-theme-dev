@@ -102,7 +102,7 @@
             echo '<div class="masonry-photo-details">';
 
             // Open a div for lightbox icon
-            echo '<div class="expand-icon-container"><i class="fa-solid fa-expand"></i></div>';
+            echo '<div class="expand-icon-container expand-icon"><i class="fa-solid fa-expand"></i></div>';
 
             // Open an anchor tag with target="_blank" for the icon
             echo '<a href="' . esc_url($post_permalink) . '" target="_blank" class="icon-link">';
