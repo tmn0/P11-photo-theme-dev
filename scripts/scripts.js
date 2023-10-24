@@ -429,9 +429,9 @@ document.addEventListener('DOMContentLoaded', function () {
 */
 
 
-// Lightbox OK
+// Lightbox Script
 jQuery(document).ready(function($) {
-    $(".single-expand-icon-container").on("click", function() {
+    $(".expand-icon-container").on("click", function() {
         var postId = $(this).data("post-id");
         // Send an AJAX request to fetch the "photo" post content
         $.ajax({
@@ -448,7 +448,7 @@ jQuery(document).ready(function($) {
 
                 // Open / close lightox
                 let lightbox = document.getElementById('lightbox');
-                let openLightboxBtns = document.getElementsByClassName('single-expand-icon-container');
+                let openLightboxBtns = document.getElementsByClassName('expand-icon-container');
                 let closelightboxBtn = document.getElementById('close-lightbox');
 
                 // Function to open the modal
@@ -482,6 +482,21 @@ jQuery(document).ready(function($) {
             }
         });
     });
+
+
+    // Function to clear the modal content
+    function clearModalContent() {
+        $("#photo-content-container").html(""); // Empty the content container
+    }
+
+    // Attach an event listener to the modal close button
+    $("#close-lightbox").on("click", function() {
+        // Clear the modal content when the close button is clicked
+        clearModalContent();
+        // Close the modal (you can add your modal close logic here)
+    });
+
 });
+
 
 

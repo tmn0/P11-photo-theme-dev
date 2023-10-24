@@ -86,9 +86,13 @@
     echo '<div class="home-masonry-grid">';
 
     // Loop through the custom query results
-    if ($custom_query->have_posts()) :
-        while ($custom_query->have_posts()) :
+    $custom_query = new WP_Query($custom_query_args);
+        if ($custom_query->have_posts()) :
+            while ($custom_query->have_posts()) :
             $custom_query->the_post();
+
+            // Get the post ID
+            $post_id = get_the_ID();
 
             // Increment the item count
             $item_count++;
@@ -102,8 +106,8 @@
             // Open a container div for the content, including title, category, and post content
             echo '<div class="masonry-photo-details">';
 
-            // Open a div for lightbox icon
-            echo '<div class="expand-icon-container expand-icon"><i class="fa-solid fa-expand"></i></div>';
+            // Output the expand-icon with data-post-id attribute
+            echo '<div class="expand-icon-container expand-icon" data-post-id="' . esc_attr($post_id) . '"><i class="fa-solid fa-expand"></i></div>';
 
             // Open an anchor tag with target="_blank" for the icon
             echo '<a href="' . esc_url($post_permalink) . '" target="_blank" class="icon-link">';
