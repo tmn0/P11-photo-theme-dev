@@ -483,7 +483,7 @@ jQuery(document).ready(function($) {
         });
     });
 
-
+    /*
     // Function to clear the modal content
     function clearModalContent() {
         $("#photo-content-container").html(""); // Empty the content container
@@ -495,7 +495,8 @@ jQuery(document).ready(function($) {
         clearModalContent();
         // Close the modal (you can add your modal close logic here)
     });
-
+    */
+    
 });
 
 

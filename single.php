@@ -84,7 +84,7 @@
     ?>
     
     <div class="single-content-right">    
-        <div class="single-expand-icon-container expand-icon"
+        <div class="single-expand-icon-container expand-icon-container expand-icon"
         data-post-id="<?php echo $post_id; ?>">
         <i class="fa-solid fa-expand"></i>
     </div>
@@ -196,7 +196,7 @@
                 echo '</a>';
                 
                 // Expand icon with data-post-id attribute
-                echo '<div class="single-expand-icon-container expand-icon ' . $position_class . '
+                echo '<div class="single-expand-icon-container expand-icon-container expand-icon ' . $position_class . '
                 " data-post-id="' . $post_id . '"><i class="fa-solid fa-expand"></i></div>';
                 echo '</div>';    
             }
