@@ -4,6 +4,7 @@
 <?php get_template_part('template-part/navmenu'); ?>
 <?php get_template_part('template-part/hero'); ?>
 
+<!-- !! AJAX TEST !! -->
 <script type="text/javascript">
     var loadmoreposts = {
         ajaxurl: '<?php echo admin_url('admin-ajax.php'); ?>'

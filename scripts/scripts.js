@@ -335,6 +335,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 /* SINGLE MORE IMAGES BEHAVIOUR*/
+/*
 // Select all elements with the "dynamic-image" class
 var dynamicImages = document.getElementsByClassName('dynamic-image');
 
@@ -351,7 +352,7 @@ for (var i = 0; i < dynamicImages.length; i++) {
     // You can change content or perform other actions as required
     // image.innerHTML = 'New content for image with ID ' + imageId;
 }
-
+*/
 
 /*
 document.addEventListener('DOMContentLoaded', function () {
@@ -382,7 +383,10 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 // EXPAND ICON LIGHTBOX BEHAVIOUR 
+/*
 document.addEventListener('DOMContentLoaded', function () {
+
+// Open / close lightox
     let lightbox = document.getElementById('lightbox');
     let openLightboxBtns = document.getElementsByClassName('single-expand-icon-container');
     let closelightboxBtn = document.getElementById('close-lightbox');
@@ -415,4 +419,69 @@ document.addEventListener('DOMContentLoaded', function () {
             closeLightbox();
         }
     });
+
+
+// Lightbox function here
+
+
+
 });
+*/
+
+
+// Lightbox OK
+jQuery(document).ready(function($) {
+    $(".single-expand-icon-container").on("click", function() {
+        var postId = $(this).data("post-id");
+        // Send an AJAX request to fetch the "photo" post content
+        $.ajax({
+            type: "POST",
+            url: ajaxurl, // WordPress AJAX URL
+            data: {
+                action: "get_photo_content",
+                post_id: postId,
+            },
+            success: function(response) {
+                // Update the modal content with the fetched "photo" post content
+                $("#photo-content-container").html(response);
+                // Open the modal                
+
+                // Open / close lightox
+                let lightbox = document.getElementById('lightbox');
+                let openLightboxBtns = document.getElementsByClassName('single-expand-icon-container');
+                let closelightboxBtn = document.getElementById('close-lightbox');
+
+                // Function to open the modal
+                function openLightbox() {
+                    lightbox.style.display = 'block';       
+                }
+
+                // Function to close the modal
+                function closeLightbox() {
+                    lightbox.style.display = 'none';
+                    // modal.classList.remove('modal-open-state'); // Remove the class when closing
+                }
+
+                // Event listener to open the modal when the "Open Modal" buttons are clicked
+                for (let i = 0; i < openLightboxBtns.length; i++) {
+                    openLightboxBtns[i].addEventListener('click', function (event) {
+                        event.preventDefault(); // Prevent the default link behavior
+                        openLightbox();
+                    });
+                }
+
+                // Event listener to close the modal when the "Close" button is clicked
+                closelightboxBtn.addEventListener('click', closeLightbox);
+
+                // Close the modal if the user clicks outside of it
+                window.addEventListener('click', function (event) {
+                    if (event.target === lightbox) {
+                        closeLightbox();
+                    }
+                });
+            }
+        });
+    });
+});
+
+

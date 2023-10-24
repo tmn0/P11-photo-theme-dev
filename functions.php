@@ -418,20 +418,21 @@ function get_first_image_from_content($content) {
 /*-------------*/
 /*-------------*/
 // EXPAND ICON LIGHTBOX BEHAVIOUR
-add_action('wp_ajax_get_image_content', 'get_image_content');
-add_action('wp_ajax_nopriv_get_image_content', 'get_image_content');
+// Add AJAX action hook for fetching "photo" post content
+add_action("wp_ajax_get_photo_content", "get_photo_content");
+add_action("wp_ajax_nopriv_get_photo_content", "get_photo_content"); // Allow non-logged-in users to access this AJAX action
 
-function get_image_content() {
-    $post_id = $_GET['post_id'];
-    $image_content = ''; // Initialize the variable to store the image content
+function get_photo_content() {
+    $post_id = $_POST["post_id"];
 
-    // Check if the post with the provided ID exists and has the post type "photo"
-    $post = get_post($post_id);
-    if ($post && $post->post_type === 'photo') {
-        // If it's a "photo" post type, fetch the content
-        $image_content = $post->post_content;
+    // Fetch the content of the "photo" post based on the provided post ID
+    $photo_post = get_post($post_id);
+
+    if ($photo_post) {
+        // Return the post content as the AJAX response
+        echo apply_filters("the_content", $photo_post->post_content);
     }
 
-    echo $image_content;
-    wp_die(); // Always include this to end the AJAX request
+    // Don't forget to exit to prevent WordPress from returning additional data
+    wp_die();
 }

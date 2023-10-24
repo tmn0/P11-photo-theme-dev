@@ -163,12 +163,12 @@
 
             // Query two random images from the same category
             $random_images = get_posts(array(
-                'post_type' => 'photo', // Adjust to your custom post type
+                'post_type' => 'photo', 
                 'posts_per_page' => 2,
                 'post__not_in' => array(get_the_ID()), // Exclude the current post
                 'tax_query' => array(
                     array(
-                        'taxonomy' => 'categorie', // Replace with your custom category taxonomy
+                        'taxonomy' => 'categorie', 
                         'field' => 'name',
                         'terms' => $category_name,
                     ),
