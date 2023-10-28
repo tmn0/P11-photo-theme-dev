@@ -4,12 +4,7 @@
 <?php get_template_part('template-part/navmenu'); ?>
 <?php get_template_part('template-part/hero'); ?>
 
-<!-- !! AJAX TEST !! -->
-<script type="text/javascript">
-    var loadmoreposts = {
-        ajaxurl: '<?php echo admin_url('admin-ajax.php'); ?>'
-    };
-</script>
+
 
 </header>
 
@@ -43,8 +38,8 @@
                     </div>
                 </button>
                 <div class="home-dropdown" id="front-dropdown2">
-                    <a href="#">Paysage</a>
-                    <a href="#">Portrait</a>                
+                    <a href="#" data-category="Paysage">Paysage</a>
+                    <a href="#" data-category="Portrait">Portrait</a>                
                 </div>
             </div> <!-- End of Button 2 -->
         </div> <!-- End of taxonomy-selector-left-container -->

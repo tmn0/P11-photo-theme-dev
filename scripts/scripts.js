@@ -1,9 +1,3 @@
-/*
-setTimeout(function() {
-  alert("alert after 2 seconds!");
-}, 2000); // 2000 milliseconds = 2 seconds
-*/
-
 /*----FRONT PAGE BUTTONS----*/
 /*----Taxo Dropdown behaviour----*/
 document.addEventListener("DOMContentLoaded", function() {
@@ -62,16 +56,16 @@ document.addEventListener("DOMContentLoaded", function() {
         option.addEventListener("click", function(event) {
             event.preventDefault();
             var selectedCategory = option.getAttribute("data-category");
-            filterMasonryGrid(selectedCategory);
+            filterMasonryGridCategory(selectedCategory);
 
             // debugging
             console.log("Selected Category:", selectedCategory); 
-            filterMasonryGrid(selectedCategory);
+            filterMasonryGridCategory(selectedCategory);
 
         });
     });
 
-    function filterMasonryGrid(category) {
+    function filterMasonryGridCategory(category) {
         // Get all masonry items
         var masonryItems = document.querySelectorAll(".home-masonry-item");
 
@@ -83,6 +77,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (cat.textContent.trim() === category) {
                     isCategoryFound = true;
                 }
+                console.log("categories", category); 
+                console.log("categories", isCategoryFound); 
             });
 
             if (isCategoryFound) {
@@ -94,39 +90,51 @@ document.addEventListener("DOMContentLoaded", function() {
     }
 });
 
+/*----Front page Taxo button 2 categorie / Dropdown sorting----*/
+document.addEventListener("DOMContentLoaded", function() {
+    var dropdownOptionsFormat = document.querySelectorAll("#front-dropdown2 a"); // Select all dropdown options
 
+    dropdownOptionsFormat.forEach(function(option) {
+        option.addEventListener("click", function(event) {
+            event.preventDefault();
+            var selectedFormat = option.getAttribute("data-format");
+            filterMasonryGridFormat(selectedFormat);
 
-/* JQUERY IS BUGGY  */
-/*
-jQuery(document).ready(function($) {
-    // Handle the click event on the category button
-    $('#front-taxo-button1').on('click', function(e) {
-        e.preventDefault();
+            // debugging
+            console.log("Selected Format", selectedFormat);
+            console.log("filterMasonryGridFormat", selectedFormat);
 
-        // Get the selected category from the button's text
-        var category = $.trim($(this).find('.home-button-title').text());
-
-        // Send an AJAX request to retrieve posts based on the selected category
-        $.ajax({
-            type: 'POST',
-            url: custom_script_data.ajax_url,
-            data: {
-                action: 'filter_posts',
-                category: category,
-            },
-            success: function(response) {
-                // Update the masonry grid with the filtered posts
-                $('#front-masonry').html(response);
-            },
         });
     });
+
+    function filterMasonryGridFormat(format) {
+        // Get all masonry items
+        var masonryItemsFormat = document.querySelectorAll(".home-masonry-item");
+
+        masonryItemsFormat.forEach(function(item) {
+            var formats = item.getAttribute("data-format"); // Change .querySelectorAll to .getAttribute
+            var isFormatFound = false;
+
+            if (formats && formats.trim() === format) { // Check if format matches
+                isFormatFound = true;
+            }
+            //debug
+            console.log("Is format found?", isFormatFound);
+            console.log("Selected Format:", format);
+
+            if (isFormatFound) {
+                item.style.display = "block"; // Show the item
+            } else {
+                item.style.display = "none"; // Hide the item
+            }
+        });
+    }
 });
-*/
 
 
 
 
-/*----Front page Load more button----*/
+// ---- Front page Load more button ----
 jQuery(document).ready(function($) {
     var page = 2;
 
@@ -137,9 +145,9 @@ jQuery(document).ready(function($) {
         };
 
         $.ajax({
-            url: ajaxurl,
+            url: loadmoreposts.ajaxurl,
             data: data,
-            type: 'photo',
+            type: 'post',
             success: function(response) {
                 // DEBUGGING Log the AJAX response to the console
                 console.log('AJAX response:', response);
@@ -154,11 +162,17 @@ jQuery(document).ready(function($) {
                     $('#home-load-more-button').hide();
                 }
                 */
+            console.log('loadmoreposts');
             },
+
             // DEBUGGING
-            error: function(jqXHR, textStatus, errorThrown) {
+            error: function(xhr, textStatus, errorThrown) {
                 console.error('AJAX request failed:', errorThrown);
+            },
+            complete: function() {
+                console.log('AJAX request completed.');
             }
+
         });
     });
 });
@@ -166,107 +180,8 @@ jQuery(document).ready(function($) {
 
 
 
-/*----Load more behaviour test 2----*/
-/*
-document.addEventListener('DOMContentLoaded', function() {
-    var page = 1; // Initialize the page number
 
-    var loadMoreButton = document.getElementById('home-load-more-button');
-    var masonryGrid = document.querySelector('#front-masonry .home-masonry-grid');
-
-    loadMoreButton.addEventListener('click', function() {
-        page++; // Increment the page number
-
-        var xhr = new XMLHttpRequest();
-        var data = new FormData();
-        data.append('action', 'load_more_posts');
-        data.append('page', page);
-
-        xhr.open('POST', loadmoreposts.ajaxurl, true);
-        xhr.onreadystatechange = function() {
-            if (xhr.readyState === 4 && xhr.status === 200) {
-                var response = xhr.responseText;
-                if (response) {
-                    // Create a temporary container for the new posts
-                    var tempDiv = document.createElement('div');
-                    tempDiv.innerHTML = response;
-
-                    // Append the new posts to the masonry grid
-                    masonryGrid.appendChild(tempDiv);
-
-                    // Remove the temporary container
-                    tempDiv = null;
-                } else {
-                    loadMoreButton.style.display = 'none'; // Hide the button when no more posts are available
-                }
-            }
-        };
-
-        xhr.send(data);
-    });
-});
-*/
-
-
-
-
-/*----Load more behaviour TEST 3----
-document.addEventListener('DOMContentLoaded', function () {
-    ( function( $ ) {
-        jQuery(function ($) {
-            var page = 2; // The initial page number
-            var loading = false; // Track if posts are being loaded
-
-            $('#home-load-more-button').on('click', function () {
-                if (!loading) {
-                    loading = true;
-
-                    var data = {
-                        action: 'load_more_posts',
-                        page: page,
-                    };
-
-                    $.ajax({
-                        type: 'POST',
-                        dataType: 'html',
-                        url: loadmoreposts.ajaxurl, // Use the ajaxurl from loadmoreposts
-                        data: data,
-                        success: function (response) {
-                            $('.home-masonry-grid').append(response); // Append the new posts
-                            page++; // Increment the page number
-                            loading = false;
-                        },
-                    });
-                }
-            });
-        });
-    } )( jQuery );
-});
-*/
-
-
-
-
-/* document.addEventListener('DOMContentLoaded', function () {
-    // Add click event handler to show content
-    var buttons = document.querySelectorAll('.home-masonry-item-link');
-
-    buttons.forEach(function (button) {
-        button.addEventListener('click', function (e) {
-            e.preventDefault();
-            var gridItem = this.closest('.home-masonry-item');
-            var postID = gridItem.getAttribute('data-post-id');
-            var contentElement = document.querySelector('#post-' + postID + ' .post'); // Replace '.post' with the actual content container class or ID
-
-            // Display the content (you can customize how you want to display it)
-            alert(contentElement.innerHTML); // You can replace 'alert(contentElement.innerHTML)' with any other code to display the content as desired
-        });
-    });
-});
-/*
-
-
-/* Modal */
+// ---- Contact Modal ----
 document.addEventListener('DOMContentLoaded', function () {
     let modal = document.getElementById('modal-container');
     let openModalBtn = document.getElementById('open-modal');
@@ -334,102 +249,9 @@ document.addEventListener('DOMContentLoaded', function () {
 });
 
 
-/* SINGLE MORE IMAGES BEHAVIOUR*/
-/*
-// Select all elements with the "dynamic-image" class
-var dynamicImages = document.getElementsByClassName('dynamic-image');
-
-// Loop through the elements and access their IDs and content
-for (var i = 0; i < dynamicImages.length; i++) {
-    var image = dynamicImages[i];
-    var imageId = image.id; // Get the ID of the element
-    var imageContent = image.innerHTML; // Get the content of the element
-
-    // Now you can work with each dynamic image element as needed
-    console.log('ID: ' + imageId);
-    console.log('Content: ' + imageContent);
-
-    // You can change content or perform other actions as required
-    // image.innerHTML = 'New content for image with ID ' + imageId;
-}
-*/
-
-/*
-document.addEventListener('DOMContentLoaded', function () {
-    const modal = document.getElementById('contact-modal-id');
-    const openModalLink = document.querySelector('.contact-open-modal');
-    const closeModalButton = document.getElementById('contact-close-modal');
-    
-    function openModal() {
-        modal.style.display = 'block';
-    }
-    
-    function closeModal() {
-        modal.style.display = 'none';
-    }
-    
-    openModalLink.addEventListener('click', openModal);    
-    closeModalButton.addEventListener('click', closeModal);
-
-    // Event listener to close the modal 
-    window.addEventListener('click', function (event) {
-        if (event.target === modal) {
-            closeModal();
-        }
-    });
-});
-*/
 
 
-
-// EXPAND ICON LIGHTBOX BEHAVIOUR 
-/*
-document.addEventListener('DOMContentLoaded', function () {
-
-// Open / close lightox
-    let lightbox = document.getElementById('lightbox');
-    let openLightboxBtns = document.getElementsByClassName('single-expand-icon-container');
-    let closelightboxBtn = document.getElementById('close-lightbox');
-
-    // Function to open the modal
-    function openLightbox() {
-        lightbox.style.display = 'block';       
-    }
-
-    // Function to close the modal
-    function closeLightbox() {
-        lightbox.style.display = 'none';
-        // modal.classList.remove('modal-open-state'); // Remove the class when closing
-    }
-
-    // Event listener to open the modal when the "Open Modal" buttons are clicked
-    for (let i = 0; i < openLightboxBtns.length; i++) {
-        openLightboxBtns[i].addEventListener('click', function (event) {
-            event.preventDefault(); // Prevent the default link behavior
-            openLightbox();
-        });
-    }
-
-    // Event listener to close the modal when the "Close" button is clicked
-    closelightboxBtn.addEventListener('click', closeLightbox);
-
-    // Close the modal if the user clicks outside of it
-    window.addEventListener('click', function (event) {
-        if (event.target === lightbox) {
-            closeLightbox();
-        }
-    });
-
-
-// Lightbox function here
-
-
-
-});
-*/
-
-
-// Lightbox Script
+// ----- Lightbox Script -----
 jQuery(document).ready(function($) {
     $(".expand-icon-container").on("click", function() {
         var postId = $(this).data("post-id");
@@ -459,7 +281,7 @@ jQuery(document).ready(function($) {
                 // Function to close the modal
                 function closeLightbox() {
                     lightbox.style.display = 'none';
-                    // modal.classList.remove('modal-open-state'); // Remove the class when closing
+                    
                 }
 
                 // Event listener to open the modal when the "Open Modal" buttons are clicked

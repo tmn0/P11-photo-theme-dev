@@ -116,31 +116,55 @@
     <div id="single-contact-shortcut-right-container">
         <div id="single-contact-shortcut-right-inner-container">
         <div class="single-contact-shortcut-nav-img">
-            <?php
+
+            <?php // Mini Image 
+            /*
             $current_post_id = get_the_ID();
+            $terms_categorie = get_the_terms($current_post_id, 'categorie');
 
-            // Retrieve the next "photo" post
-            $next_photo = get_next_post(true, '', 'photo');
+            if ($terms_categorie) {
+                $category_name = $terms_categorie[0]->name; // Assuming it's the first category
 
-            if ($next_photo) {
-                // Extract the image from the next "photo" post's content
-                $next_photo_content = apply_filters('the_content', $next_photo->post_content);
-                $next_photo_image = get_first_image_from_content($next_photo_content);
+                $args = array(
+                    'post_type' => 'photo',
+                    'posts_per_page' => 1, // Retrieve only one post
+                    'post__not_in' => array($current_post_id), // Exclude the current post
+                    'tax_query' => array(
+                        array(
+                            'taxonomy' => 'categorie',
+                            'field' => 'name',
+                            'terms' => $category_name,
+                        ),
+                    ),
+                    'orderby' => 'date', // Order by date to get the next post
+                    'order' => 'ASC', // Ascending order
+                );
 
-                // Display the next photo's image
-                if (!empty($next_photo_image)) {
-                    echo $next_photo_image;
+                $next_photo_query = new WP_Query($args);
+
+                if ($next_photo_query->have_posts()) {
+                    while ($next_photo_query->have_posts()) {
+                        $next_photo_query->the_post();
+                        // Display the content of the next "photo" post
+                        the_content();
+                    }
+
+                    wp_reset_postdata(); // Restore the original post data
                 }
             }
+            */
             ?>
-        </div>
+
+
+        </div> <!-- single-contact-shortcut-nav-img -->
 
         <div id="single-contact-shortcut-arrows-container">
             <button id="arrow-left" class="shortcut-arrow"></button>
             <button id="arrow-right" class="shortcut-arrow"></button>
         </div>
-    </div>
-    </div>
+
+    </div> <!-- single-contact-shortcut-right-inner-container -->
+    </div> <!-- single-contact-shortcut-right-container -->
 
 </section>
 
