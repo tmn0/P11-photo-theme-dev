@@ -3,21 +3,21 @@
 /*-------------*/
 /*-------------*/
 /*Register assets*/
-function photo_theme_register_assets() {   
+function photo_theme_register_assets() {
     wp_enqueue_style('theme-main', get_stylesheet_uri());
 
-    // Enqueue custom jQuery library (+ override WP base jQuery)
-    wp_enqueue_script('custom-jquery', get_template_directory_uri() . '/scripts/jquery-3.7.1.min.js', array('jquery'), null, true);
+    // Enqueue your custom JavaScript file
+    wp_enqueue_script('custom-scripts', get_template_directory_uri() . '/scripts/custom-scripts.js', array('jquery'), null, true);
 
-    // Enqueue and localize the 'load-more-posts' script
-    wp_enqueue_script('load-more-posts', get_template_directory_uri() . '/scripts/scripts.js', array('jquery'), '1.0', true);
-    wp_localize_script('load-more-posts', 'loadmoreposts', array(
-        'ajaxurl' => admin_url('admin-ajax.php'),
-    ));    
-    
+    // Pass the AJAX URL to the JavaScript file
+    wp_localize_script('custom-scripts', 'photo_ajax', array(
+        'ajax_url' => admin_url('admin-ajax.php')
+    ));
 }
 
 add_action('wp_enqueue_scripts', 'photo_theme_register_assets');
+
+
 
 
 
@@ -147,6 +147,8 @@ add_action('init', 'custom_register_wpforms_shortcode');
 add_filter('the_content', 'filter_content_example');
 */
 
+
+
 /*-------------*/
 /*-------------*/
 /* Custom post type photo config*/ 
@@ -204,20 +206,14 @@ add_filter('wp_get_attachment_image_attributes', 'remove_image_size_attributes')
 /*-------------*/
 /*-------------*/
 /* AJAX / FRONT PAGE LOAD MORE BUTTON */  
-function load_more_posts() {
+
+function load_more_photos() {
     $page = $_POST['page'];
 
-    /*DEBUGGING*/
-    error_log('load_more_posts function called, page = ' . $page);
-    // Debug the data
-    error_log('Data received in the AJAX request:');
-    error_log(print_r($_POST, true));
-    /*DEBUGGING*/
-    
     $custom_query_args = array(
         'post_type' => 'photo',
         'posts_per_page' => 10,
-        'paged' => $page
+        'paged' => $page,
     );
 
     $custom_query = new WP_Query($custom_query_args);
@@ -225,20 +221,17 @@ function load_more_posts() {
     if ($custom_query->have_posts()) {
         while ($custom_query->have_posts()) {
             $custom_query->the_post();
-            // Output the HTML for each new post
-            // This should match the structure used in your initial code
+            // Output the post content as you did before
         }
-
-        wp_reset_postdata();
-    } else {
-        echo 'No more posts to load'; // No more posts to load
     }
 
-    die(); // Always end with die() for AJAX requests
+    wp_die();
 }
 
-add_action('wp_ajax_load_more_posts', 'load_more_posts');
-add_action('wp_ajax_nopriv_load_more_posts', 'load_more_posts');
+add_action('wp_ajax_load_more_photos', 'load_more_photos');
+add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
+
+
 
 
 /*-------------*/
@@ -305,4 +298,6 @@ function get_photo_content() {
     // Don't forget to exit to prevent WordPress from returning additional data
     wp_die();
 }
-?>
+
+
+

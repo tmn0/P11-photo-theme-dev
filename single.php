@@ -115,45 +115,51 @@
 
     <div id="single-contact-shortcut-right-container">
         <div id="single-contact-shortcut-right-inner-container">
-        <div class="single-contact-shortcut-nav-img">
+
+            <div class="single-contact-shortcut-nav-img">
 
             <?php // Mini Image 
-            /*
-            $current_post_id = get_the_ID();
-            $terms_categorie = get_the_terms($current_post_id, 'categorie');
+            // Get the current post's category
+                $terms_categorie = get_the_terms(get_the_ID(), 'categorie');
+                // Check if the current post has a category
+                if ($terms_categorie) {
+                    $category_name = $terms_categorie[0]->name; // Assuming it's the first category
 
-            if ($terms_categorie) {
-                $category_name = $terms_categorie[0]->name; // Assuming it's the first category
-
-                $args = array(
-                    'post_type' => 'photo',
-                    'posts_per_page' => 1, // Retrieve only one post
-                    'post__not_in' => array($current_post_id), // Exclude the current post
-                    'tax_query' => array(
-                        array(
-                            'taxonomy' => 'categorie',
-                            'field' => 'name',
-                            'terms' => $category_name,
+                    // Query the next post in the same category
+                    $next_post = get_posts(array(
+                        'post_type' => 'photo',
+                        'posts_per_page' => 1,
+                        'post__not_in' => array(get_the_ID()), // Exclude the current post
+                        'tax_query' => array(
+                            array(
+                                'taxonomy' => 'categorie',
+                                'field' => 'name',
+                                'terms' => $category_name,
+                            ),
                         ),
-                    ),
-                    'orderby' => 'date', // Order by date to get the next post
-                    'order' => 'ASC', // Ascending order
-                );
+                        'orderby' => 'rand', // You can change the ordering method if needed
+                    ));
 
-                $next_photo_query = new WP_Query($args);
+                    if ($next_post) {
+                        $next_post = $next_post[0]; // Get the next post
+                        $next_post_permalink = get_permalink($next_post->ID);
+                        $next_post_content = get_the_content(null, false, $next_post->ID);
+                        $next_post_id = 'single-image-' . $next_post->ID;
 
-                if ($next_photo_query->have_posts()) {
-                    while ($next_photo_query->have_posts()) {
-                        $next_photo_query->the_post();
-                        // Display the content of the next "photo" post
-                        the_content();
+                        // Display the content of the next post in the same category
+                        echo '<div id="' . $next_post_id . '" class="mini-image">';
+                        echo $next_post_content;                       
+                        echo '</div>';
+                        
+                    } else {
+                        // Handle the case where no next post is found in the same category
+                        echo "No next post found in the same category.";
                     }
-
-                    wp_reset_postdata(); // Restore the original post data
+                } else {
+                    // Handle the case where the current post doesn't have a category
+                    echo "No category found for this post.";
                 }
-            }
-            */
-            ?>
+            ?>    
 
 
         </div> <!-- single-contact-shortcut-nav-img -->
@@ -237,12 +243,3 @@
 
 </div>
 <?php get_footer(); ?>
-
-
-
-
-<!-- mini image avec fleche: le post d'après
-cf code theme 2020 de wp et adapter
-
-2 photos suivantes dans single: random dans meme catégorie
--->

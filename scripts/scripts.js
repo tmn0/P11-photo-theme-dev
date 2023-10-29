@@ -136,47 +136,47 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // ---- Front page Load more button ----
 jQuery(document).ready(function($) {
-    var page = 2;
+    var page = 1;
+    var loading = false;
+    var $loadMoreButton = $('#home-load-more-button');
+    var $masonryGrid = $('#front-masonry .home-masonry-grid');
 
-    $('#home-load-more-button').on('click', function() {
-        var data = {
-            action: 'load_more_posts',
-            page: page
-        };
+    $loadMoreButton.on('click', function() {
+        if (!loading) {
+            loading = true;
+            page++;
+            /*
+            $loadMoreButton.text('Chargement en cours...');
+            */
 
-        $.ajax({
-            url: loadmoreposts.ajaxurl,
-            data: data,
-            type: 'post',
-            success: function(response) {
-                // DEBUGGING Log the AJAX response to the console
-                console.log('AJAX response:', response);
+            // Define the ajaxurl variable correctly
+            var ajaxurl = photo_ajax.ajax_url;
 
-                // Append the new posts to the grid container
-                $('.home-masonry-grid').append(response);
-
-                page++;
-
-                /*
-                if (response === '') {
-                    $('#home-load-more-button').hide();
-                }
-                */
-            console.log('loadmoreposts');
-            },
-
-            // DEBUGGING
-            error: function(xhr, textStatus, errorThrown) {
-                console.error('AJAX request failed:', errorThrown);
-            },
-            complete: function() {
-                console.log('AJAX request completed.');
-            }
-
-        });
+            $.ajax({
+                type: 'POST',
+                url: ajaxurl, // Use the AJAX URL defined by wp_localize_script
+                data: {
+                    action: 'load_more_photos',
+                    page: page,
+                },
+                success: function(response) {
+                    if (response) {
+                        $masonryGrid.append(response);
+                        loading = false;
+                        /*
+                        $loadMoreButton.text('Charger plus');
+                        */
+                    } else {
+                        /*
+                        $loadMoreButton.text('Fin de chargement');
+                        $loadMoreButton.attr('disabled', true);
+                        */
+                    }
+                },
+            });
+        }
     });
 });
-
 
 
 
