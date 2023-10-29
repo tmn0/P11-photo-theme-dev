@@ -121,36 +121,42 @@
             <?php // Mini Image 
             // Get the current post's category
             $terms_categorie = get_the_terms(get_the_ID(), 'categorie');
-            // Check if the current post has a category
+
+            // Check if the current post has a category       
             if ($terms_categorie) {
                 $category_name = $terms_categorie[0]->name; // Assuming it's the first category
 
-            // Query the next post in the same category
-            $next_post = get_posts(array(
-                'post_type' => 'photo',
-                'posts_per_page' => 1,
-                'post__not_in' => array(get_the_ID()), // Exclude the current post
-                'tax_query' => array(
-                    array(
-                        'taxonomy' => 'categorie',
-                        'field' => 'name',
-                        'terms' => $category_name,
+                // Query the next post in the same category
+                $next_post = get_posts(array(
+                    'post_type' => 'photo',
+                    'posts_per_page' => 1,
+                    'post__not_in' => array(get_the_ID()), // Exclude the current post
+                    'tax_query' => array(
+                        array(
+                            'taxonomy' => 'categorie',
+                            'field' => 'name',
+                            'terms' => $category_name,
+                        ),
                     ),
-                ),
-                'orderby' => 'rand', // You can change the ordering method if needed
-            ));
+                    'orderby' => 'rand', // You can change the ordering method if needed
+                ));
 
-            if ($next_post) {
-                $next_post = $next_post[0]; // Get the next post
-                $next_post_permalink = get_permalink($next_post->ID);
-                $next_post_content = get_the_content(null, false, $next_post->ID);
-                $next_post_id = 'single-image-' . $next_post->ID;
+                if ($next_post) {
+                    $next_post = $next_post[0]; // Get the next post
+                    $next_post_permalink = get_permalink($next_post->ID);
+                    $next_post_content = get_the_content(null, false, $next_post->ID);
+                    $next_post_id = 'single-image-' . $next_post->ID;
 
-                // Display the content of the next post in the same category
-                echo '<div id="' . $next_post_id . '" class="mini-image">';
-                echo $next_post_content;
-                echo '</div>';
+                    // Display the content of the next post in the same category
+                    echo '<div id="' . $next_post_id . '" class="mini-image">';
+                    echo $next_post_content;
+                    
+                    // Open an anchor tag with target="_blank" for the eye icon and link to the post
+                    echo '<a href="' . esc_url($next_post_permalink) . '" target="_blank" class="icon-link">';
+                    echo '<div class="single-eye-icon-container"><i class="fa-regular fa-eye"></i></div>';
+                    echo '</a>';
 
+                    echo '</div>';
                 } else {
                     // If no next post in the same category is found, display a random "photo" post
                     $random_photo = get_posts(array(
@@ -162,16 +168,24 @@
 
                     if ($random_photo) {
                         $random_photo = $random_photo[0];
+                        $random_photo_permalink = get_permalink($random_photo->ID);
                         $random_photo_content = get_the_content(null, false, $random_photo->ID);
                         $random_photo_id = 'single-image-' . $random_photo->ID;
 
                         // Display the content of the random "photo" post
                         echo '<div id="' . $random_photo_id . '" class="mini-image">';
                         echo $random_photo_content;
+                        
+                        // Open an anchor tag with target="_blank" for the eye icon and link to the random post
+                        echo '<a href="' . esc_url($random_photo_permalink) . '" target="_blank" class="icon-link">';
+                        echo '<div class="single-eye-icon-container"><i class="fa-regular fa-eye"></i></div>';
+                        echo '</a>';
+                        
                         echo '</div>';
                     }
                 }
             }
+
             ?>    
 
         </div> <!-- single-contact-shortcut-nav-img -->
