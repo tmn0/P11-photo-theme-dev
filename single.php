@@ -120,53 +120,93 @@
 
             <?php // Mini Image 
             // Get the current post's category
-                $terms_categorie = get_the_terms(get_the_ID(), 'categorie');
-                // Check if the current post has a category
-                if ($terms_categorie) {
-                    $category_name = $terms_categorie[0]->name; // Assuming it's the first category
+            $terms_categorie = get_the_terms(get_the_ID(), 'categorie');
+            // Check if the current post has a category
+            if ($terms_categorie) {
+                $category_name = $terms_categorie[0]->name; // Assuming it's the first category
 
-                    // Query the next post in the same category
-                    $next_post = get_posts(array(
+            // Query the next post in the same category
+            $next_post = get_posts(array(
+                'post_type' => 'photo',
+                'posts_per_page' => 1,
+                'post__not_in' => array(get_the_ID()), // Exclude the current post
+                'tax_query' => array(
+                    array(
+                        'taxonomy' => 'categorie',
+                        'field' => 'name',
+                        'terms' => $category_name,
+                    ),
+                ),
+                'orderby' => 'rand', // You can change the ordering method if needed
+            ));
+
+            if ($next_post) {
+                $next_post = $next_post[0]; // Get the next post
+                $next_post_permalink = get_permalink($next_post->ID);
+                $next_post_content = get_the_content(null, false, $next_post->ID);
+                $next_post_id = 'single-image-' . $next_post->ID;
+
+                // Display the content of the next post in the same category
+                echo '<div id="' . $next_post_id . '" class="mini-image">';
+                echo $next_post_content;
+                echo '</div>';
+
+                } else {
+                    // If no next post in the same category is found, display a random "photo" post
+                    $random_photo = get_posts(array(
                         'post_type' => 'photo',
                         'posts_per_page' => 1,
                         'post__not_in' => array(get_the_ID()), // Exclude the current post
-                        'tax_query' => array(
-                            array(
-                                'taxonomy' => 'categorie',
-                                'field' => 'name',
-                                'terms' => $category_name,
-                            ),
-                        ),
-                        'orderby' => 'rand', // You can change the ordering method if needed
+                        'orderby' => 'rand', // Get a random post
                     ));
 
-                    if ($next_post) {
-                        $next_post = $next_post[0]; // Get the next post
-                        $next_post_permalink = get_permalink($next_post->ID);
-                        $next_post_content = get_the_content(null, false, $next_post->ID);
-                        $next_post_id = 'single-image-' . $next_post->ID;
+                    if ($random_photo) {
+                        $random_photo = $random_photo[0];
+                        $random_photo_content = get_the_content(null, false, $random_photo->ID);
+                        $random_photo_id = 'single-image-' . $random_photo->ID;
 
-                        // Display the content of the next post in the same category
-                        echo '<div id="' . $next_post_id . '" class="mini-image">';
-                        echo $next_post_content;                       
+                        // Display the content of the random "photo" post
+                        echo '<div id="' . $random_photo_id . '" class="mini-image">';
+                        echo $random_photo_content;
                         echo '</div>';
-                        
-                    } else {
-                        // Handle the case where no next post is found in the same category
-                        echo "No next post found in the same category.";
                     }
-                } else {
-                    // Handle the case where the current post doesn't have a category
-                    echo "No category found for this post.";
                 }
+            }
             ?>    
 
-
         </div> <!-- single-contact-shortcut-nav-img -->
+        
+        <?php
+        // Create an array of post IDs for navigation
+        $postIds = array();
+
+        // Query the next and previous posts
+        $prev_post = get_previous_post();
+        $next_post = get_next_post();
+
+        if ($prev_post) {
+            $postIds[] = $prev_post->ID;
+        }
+
+        if ($next_post) {
+            $postIds[] = $next_post->ID;
+        }
+        ?>
+
+        <script>
+            // Pass the post IDs to JavaScript
+            var postIds = <?php echo json_encode($postIds); ?>;
+        </script>
+
 
         <div id="single-contact-shortcut-arrows-container">
-            <button id="arrow-left" class="shortcut-arrow"></button>
-            <button id="arrow-right" class="shortcut-arrow"></button>
+            <button id="arrow-left" class="shortcut-arrow">
+                <img src="<?php echo get_template_directory_uri(); ?>/medias/mini-arrow.png">
+            </button>
+
+            <button id="arrow-right" class="shortcut-arrow">
+                <img src="<?php echo get_template_directory_uri(); ?>/medias/mini-arrow.png">
+            </button>
         </div>
 
     </div> <!-- single-contact-shortcut-right-inner-container -->
@@ -189,50 +229,55 @@
 
         // Check if the current post has a category
         if ($terms_categorie) {
-            $category_name = $terms_categorie[0]->name; // Assuming it's the first category
+        $category_name = $terms_categorie[0]->name; // Assuming it's the first category
 
-            // Query two random images from the same category
+        // Query two random images from the same category
             $random_images = get_posts(array(
-                'post_type' => 'photo', 
+                'post_type' => 'photo',
                 'posts_per_page' => 2,
                 'post__not_in' => array(get_the_ID()), // Exclude the current post
                 'tax_query' => array(
                     array(
-                        'taxonomy' => 'categorie', 
+                        'taxonomy' => 'categorie',
                         'field' => 'name',
                         'terms' => $category_name,
                     ),
                 ),
                 'orderby' => 'rand', // Get random posts
             ));
+        }
 
-            // If random images are found, display them
-            foreach ($random_images as $index => $image) {
-                $image_permalink = get_permalink($image->ID); // Get the URL to the individual post
-                $image_content = get_the_content(null, false, $image->ID);
-                $image_id = 'single-image-' . $image->ID; // Create a unique ID for each image using the post's ID
-                $post_id = $image->ID; // Get the post ID for the expand icon
-                
-                // Determine if it's the left or right image
-                $position_class = ($index == 0) ? 'left' : 'right';                    
+        // If no posts found or no category, query two random "photo" posts
+        if (empty($random_images)) {
+            $random_images = get_posts(array(
+                'post_type' => 'photo',
+                'posts_per_page' => 2,
+                'post__not_in' => array(get_the_ID()), // Exclude the current post
+                'orderby' => 'rand', // Get random posts
+            ));
+        }
 
-                // Image content
-                echo '<div id="' . $image_id . '" class="dynamic-image ' . $position_class . '">' . $image_content ;
-                
-                // Open an anchor tag with target="_blank" for the eye icon
-                echo '<a href="' . esc_url($image_permalink) . '" target="_blank" class="icon-link">';                 
-                echo '<div class="single-eye-icon-container ' . $position_class . '">
-                <i class="fa-regular fa-eye"></i></div>';
-                echo '</a>';
-                
-                // Expand icon with data-post-id attribute
-                echo '<div class="single-expand-icon-container expand-icon-container expand-icon ' . $position_class . '
-                " data-post-id="' . $post_id . '"><i class="fa-solid fa-expand"></i></div>';
-                echo '</div>';    
-            }
-        } else {
-            // Handle the case where the current post doesn't have a category
-            echo "No category found for this post.";
+        // Display the random images
+        foreach ($random_images as $index => $image) {        
+            $image_permalink = get_permalink($image->ID); // Get the URL to the individual post
+            $image_content = get_the_content(null, false, $image->ID);
+            $image_id = 'single-image-' . $image->ID; // Create a unique ID for each image using the post's ID
+            $post_id = $image->ID; // Get the post ID for the expand icon
+
+            // Determine if it's the left or right image
+            $position_class = ($index == 0) ? 'left' : 'right';
+
+            // Image content
+            echo '<div id="' . $image_id . '" class="dynamic-image ' . $position_class . '">' . $image_content;
+
+            // Open an anchor tag with target="_blank" for the eye icon
+            echo '<a href="' . esc_url($image_permalink) . '" target="_blank" class="icon-link">';
+            echo '<div class="single-eye-icon-container ' . $position_class . '"><i class="fa-regular fa-eye"></i></div>';
+            echo '</a>';
+
+            // Expand icon with data-post-id attribute
+            echo '<div class="single-expand-icon-container expand-icon-container expand-icon ' . $position_class . '" data-post-id="' . $post_id . '"><i class="fa-solid fa-expand"></i></div>';
+            echo '</div>';
         }
         ?>
     </div> <!-- "single-section3-image-container" -->

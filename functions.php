@@ -264,17 +264,14 @@ add_action('wp_ajax_nopriv_get_reference_term_data', 'get_reference_term_data');
 /*-------------*/
 /*-------------*/
 // SINGLE PAGE - SECTION 2 NEXT IMAGES
-function get_first_image_from_content($content) {
-    $pattern = '/<img[^>]+src=[\'"]([^\'"]+)[\'"][^>]*>/';
-    preg_match($pattern, $content, $matches);
-
-    if (isset($matches[1])) {
-        return '<img src="' . esc_url($matches[1]) . '">';
-    }
-
-    return ''; // Return an empty string if no image is found
+function load_post_content() {
+    $post_id = $_POST['post_id'];
+    $post = get_post($post_id);
+    echo apply_filters('the_content', $post->post_content);
+    die();
 }
-
+add_action('wp_ajax_load_post_content', 'load_post_content');
+add_action('wp_ajax_nopriv_load_post_content', 'load_post_content');
 
 
 /*-------------*/

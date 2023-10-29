@@ -250,6 +250,97 @@ document.addEventListener('DOMContentLoaded', function () {
 
 
 
+// ----- Single Scetion 2 mini image -----
+
+document.addEventListener("DOMContentLoaded", function() {
+
+    // Get references to the buttons and the mini-image container
+    const arrowLeft = document.getElementById('arrow-left');
+    const arrowRight = document.getElementById('arrow-right');
+    const miniImageContainer = document.querySelector('.single-contact-shortcut-nav-img');
+
+    // Define a function to update the mini-image content
+    function updateMiniImage(postID) {
+        // You may want to load the content from the server using AJAX
+        // Here, I'm assuming you have already fetched the content and stored it in a variable
+        const content = getMiniImageContent(postID);
+
+        if (content) {
+            miniImageContainer.innerHTML = content;
+        } else {
+            miniImageContainer.innerHTML = "";
+        }
+    }
+
+    // Define a function to get the content for a post
+    function getMiniImageContent(postID) {
+        // You should implement the logic to get the content based on postID
+        // You can fetch it from an array or an API call
+        // For example, return the content from an array
+        const postContent = miniImageContentArray[postID];
+        return postContent || '';
+    }
+
+    // Initialize nextPostID and prevPostID with the appropriate values
+    let nextPostID = ''; // Initialize with the ID of the next post
+    let prevPostID = ''; // Initialize with the ID of the previous post
+
+    // Assuming you have an array of mini-image content
+    // You should populate this array when you fetch the content for each post
+    const miniImageContentArray = {};
+
+    // Attach a click event listener to the left arrow button
+    arrowLeft.addEventListener('click', function() {
+        // Update the mini-image content based on the previous post ID
+        updateMiniImage(prevPostID);
+    });
+
+    // Attach a click event listener to the right arrow button
+    arrowRight.addEventListener('click', function() {
+        // Update the mini-image content based on the next post ID
+        updateMiniImage(nextPostID);
+    });
+
+});
+
+
+
+
+//---- Single Scetion 2  navigation arrows
+
+jQuery(document).ready(function($) {
+    var currentIndex = 0; // Initialize the current index
+
+    // Function to load content based on the current index
+    function loadContent() {
+        var postId = postIds[currentIndex];
+        var data = {
+            action: 'load_post_content',
+            post_id: postId,
+        };
+
+        // Send an AJAX request to fetch post content
+        $.post(ajaxurl, data, function(response) {
+            // Update the content of the div
+            $('.single-contact-shortcut-nav-img').html(response);
+        });
+    }
+
+    // Click handler for the left button
+    $('#arrow-left').on('click', function() {
+        currentIndex = (currentIndex - 1 + postIds.length) % postIds.length;
+        loadContent();
+    });
+
+    // Click handler for the right button
+    $('#arrow-right').on('click', function() {
+        currentIndex = (currentIndex + 1) % postIds.length;
+        loadContent();
+    });
+});
+
+
+
 
 // ----- Lightbox Script -----
 jQuery(document).ready(function($) {

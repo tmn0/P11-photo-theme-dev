@@ -14,7 +14,10 @@ Theme Name: photo
     src: url('font/Space%20Mono/SpaceMono-Regular.ttf') format('truetype');
 }
 
-
+.figure {
+    margin: 0%;
+    padding: 0%;
+}
 
 footer {
     padding-top: 50px;
@@ -643,7 +646,9 @@ a:hover {
     display: flex;
     width: 100px;
     height: 100px;
+    /*
     background: #000;
+    */
 }
 
 .single-contact-shortcut-nav-img img {
@@ -657,12 +662,24 @@ a:hover {
     flex-direction: row;
     flex-wrap: wrap;
     margin-top: 10px; 
-    align-items: center;   
+    justify-content: space-between;
+    width: 100px;
 }
 
 .shortcut-arrow {
-    padding: 5px;
+    display: block;    
     width: 45px;
+    height: 20px;  
+    justify-items: center;  
+    align-items: center;
+
+}
+
+
+#arrow-left img {        
+    transform: rotate(180deg);
+    padding: 0%;
+    margin: 0%;
 }
 
 #single-contact-shortcut-right-inner-container {
