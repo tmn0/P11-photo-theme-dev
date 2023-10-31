@@ -34,33 +34,34 @@
 
             <!-- Button 2 -->
             <div id="format-button" class="taxonomy-button-container">
-                <button class="home-button" id="front-taxo-button2">
-                    <p class="home-button-title">FORMATS</p>
-                    <div class="fa-caret-container">
-                        <i class="fa-solid fa-caret-down"></i>
+                    <button class="home-button" id="front-taxo-button2">
+                        <p class="home-button-title">FORMATS</p>
+                        <div class="fa-caret-container">
+                            <i class="fa-solid fa-caret-down"></i>
+                        </div>
+                    </button>
+                    <div class="home-dropdown" id="front-dropdown2">
+                        <a href="#" data-category="Paysage">Paysage</a>
+                        <a href="#" data-category="Portrait">Portrait</a>                
                     </div>
-                </button>
-                <div class="home-dropdown" id="front-dropdown2">
-                    <a href="#" data-category="Paysage">Paysage</a>
-                    <a href="#" data-category="Portrait">Portrait</a>                
-                </div>
-            </div> <!-- End of Button 2 -->
-        </div> <!-- End of taxonomy-selector-left-container -->
+                </div> <!-- End of Button 2 -->
+            </div> <!-- End of taxonomy-selector-left-container -->
 
-        <div class="taxonomy-selector-right-container">
-            <div class="taxonomy-button-container">
-                <button class="home-button" id="front-taxo-button3">
-                    <p class="home-button-title">TRIER PAR</p>
-                    <div class="fa-caret-container">
-                        <i class="fa-solid fa-caret-down"></i>
+            <!-- Button 3 -->
+            <div class="taxonomy-selector-right-container">
+                <div class="taxonomy-button-container">
+                    <button class="home-button" id="front-taxo-button3">
+                        <p class="home-button-title">TRIER PAR</p>
+                        <div class="fa-caret-container">
+                            <i class="fa-solid fa-caret-down"></i>
+                        </div>
+                    </button>
+                    <div class="home-dropdown" id="front-dropdown3">
+                        <a href="#">Les plus récentes</a>
+                        <a href="#">Les plus anciennes</a>                  
                     </div>
-                </button>
-                <div class="home-dropdown" id="front-dropdown3">
-                    <a href="#">Les plus récentes</a>
-                    <a href="#">Les plus anciennes</a>                  
                 </div>
             </div>
-        </div>
 
     </div> <!-- End of taxonomy-selector-main-container -->
 
@@ -99,7 +100,8 @@
             $post_permalink = get_permalink();
 
             // Open a grid item
-            echo '<div class="home-masonry-item">';
+            echo '<div class="home-masonry-item" data-post-date="' . esc_attr(get_the_date('Y-m-d')) . '">';
+         
 
             // Open a container div for the content, including title, category, and post content
             echo '<div class="masonry-photo-details">';
@@ -138,6 +140,7 @@
 
             // Close the grid item
             echo '</div>';
+            
 
             // Check if it's time to start a new row
             if ($item_count % 2 === 0) {

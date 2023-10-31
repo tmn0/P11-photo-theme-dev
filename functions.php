@@ -6,17 +6,19 @@
 function photo_theme_register_assets() {
     wp_enqueue_style('theme-main', get_stylesheet_uri());
 
+    // Enqueue jQuery
+    wp_enqueue_script('jquery');
+
+
     // Enqueue your custom JavaScript file
     wp_enqueue_script('custom-scripts', get_template_directory_uri() . '/scripts/custom-scripts.js', array('jquery'), null, true);
 
     // Pass the AJAX URL to the JavaScript file
-    wp_localize_script('custom-scripts', 'photo_ajax', array(
-        'ajax_url' => admin_url('admin-ajax.php')
+    wp_localize_script('custom-scripts', 'photo_ajax', array('ajax_url' => admin_url('admin-ajax.php')
     ));
 }
 
 add_action('wp_enqueue_scripts', 'photo_theme_register_assets');
-
 
 
 
@@ -236,7 +238,7 @@ add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
 
 /*-------------*/
 /*-------------*/
-// AJAX / BUTTON TAXO DATA FETCH
+// AJAX / BUTTON TAXO DATA FETCH CONTACT
 function get_reference_term_data() {
     // Get the post ID from the AJAX request
     $post_id = $_POST['post_id'];
@@ -298,3 +300,78 @@ function get_photo_content() {
 
 
 
+/*-------------*/
+/*-------------*/
+// Single Load More Button
+
+function single_load_more_photos() { // Updated AJAX action
+    $categorie_slug = sanitize_text_field($_POST['categorie']);
+
+    $query = new WP_Query(array(
+        'post_type' => 'photo',
+        'posts_per_page' => -1,
+        'tax_query' => array(
+            array(
+                'taxonomy' => 'categorie',
+                'field' => 'slug',
+                'terms' => $categorie_slug,
+            ),
+        ),
+    ));
+
+    $generated_html = '';
+
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+            $generated_html .= '<div class="photo-post">';
+            $generated_html .= '<h2>' . get_the_title() . '</h2>';
+            $generated_html .= '</div>';
+        }
+    }
+
+    wp_reset_postdata();
+
+    echo $generated_html;
+    wp_die(); // Terminate the script safely
+}
+
+add_action('wp_ajax_single_load_more_photos', 'single_load_more_photos'); // Updated AJAX action
+add_action('wp_ajax_nopriv_single_load_more_photos', 'single_load_more_photos'); // Updated AJAX action
+
+
+
+// Front Page Button 3 Taxo SORTING
+function sort_posts_by_date() {
+    // Get the sorting option from the AJAX request
+    $sorting_option = sanitize_text_field($_POST['sorting_option']);
+
+    // Define the custom query arguments based on the sorting option
+    $custom_query_args = array(
+        'post_type' => 'photo',
+        'posts_per_page' => 10,
+        'orderby' => ($sorting_option === 'Les plus anciennes') ? 'date' : 'date',
+        'order' => ($sorting_option === 'Les plus anciennes') ? 'ASC' : 'DESC',
+    );
+
+    // Create a new custom query
+    $custom_query = new WP_Query($custom_query_args);
+
+    // Output the sorted posts
+    if ($custom_query->have_posts()) :
+        while ($custom_query->have_posts()) :
+            $custom_query->the_post();
+
+            // Output your post content as you did in your original code
+
+        endwhile;
+        wp_reset_postdata(); // Restore the global post data
+    else :
+        echo 'No custom posts found.';
+    endif;
+
+    wp_die(); // Always use wp_die() at the end of your AJAX callback function
+}
+
+add_action('wp_ajax_sort_posts_by_date', 'sort_posts_by_date');
+add_action('wp_ajax_nopriv_sort_posts_by_date', 'sort_posts_by_date');

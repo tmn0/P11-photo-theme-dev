@@ -134,6 +134,51 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 
+/* Front page Taxo button 3 sorting by date */
+document.addEventListener("DOMContentLoaded", function() {
+    var dropdownOptions = document.querySelectorAll("#front-dropdown3 a"); // Select all dropdown options
+
+    dropdownOptions.forEach(function(option) {
+        option.addEventListener("click", function(event) {
+            event.preventDefault();
+            var sortOrder = option.textContent.trim();
+            filterMasonryGridByDate(sortOrder);
+
+            // debugging
+            console.log("Sort Order:", sortOrder);
+            filterMasonryGridByDate(sortOrder);
+        });
+    });
+
+    function filterMasonryGridByDate(sortOrder) {
+        // Get all masonry items
+        var masonryItems = document.querySelectorAll(".home-masonry-item");
+
+        var sortedItems = Array.from(masonryItems);
+
+        sortedItems.sort(function(a, b) {
+            var dateA = new Date(a.getAttribute("data-post-date"));
+            var dateB = new Date(b.getAttribute("data-post-date"));
+
+            if (sortOrder === "Les plus récentes") {
+                return dateB - dateA; // Sort by descending order
+            } else if (sortOrder === "Les plus anciennes") {
+                return dateA - dateB; // Sort by ascending order
+            }
+        });
+
+        // Reorder the masonry grid based on the sorted items
+        var gridContainer = document.querySelector(".home-masonry-grid");
+        gridContainer.innerHTML = ""; // Clear the grid
+
+        sortedItems.forEach(function(item) {
+            gridContainer.appendChild(item);
+        });
+    }
+});
+
+
+
 // ---- Front page Load more button ----
 jQuery(document).ready(function($) {
     var page = 1;
@@ -411,6 +456,36 @@ jQuery(document).ready(function($) {
     */
     
 });
+
+
+
+//---- Single Load More Button----
+jQuery(document).ready(function ($) {
+    $('#load-more-photos').on('click', function () {
+        var categorieSlug = getSection1CategorieSlug();
+
+        if (categorieSlug) {
+            $.ajax({
+                type: 'POST',
+                url: ajaxurl, // WordPress AJAX URL
+                data: {
+                    action: 'single_load_more_photos', // Updated AJAX action
+                    categorie: categorieSlug,
+                },
+                success: function (response) {
+                    $('#photo-container').html(response);
+                },
+            });
+        }
+    });
+
+    function getSection1CategorieSlug() {
+        // Implement this function to extract and return the "categorie" slug from Section 1 content
+    }
+});
+
+
+
 
 
 

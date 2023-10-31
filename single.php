@@ -295,6 +295,14 @@
         }
         ?>
     </div> <!-- "single-section3-image-container" -->
+
+    <div class="single-more-button-container">
+       <button id="load-more-photos" class="more-button">Toutes les photos</button>
+        <div id="photo-container" class="single-section3-image-container">
+        <!-- This is where the loaded photos will be displayed -->
+    </div>
+
+    </div>
 </section>
 
 

@@ -727,7 +727,7 @@ a:hover {
 
 /*-----------------------*/
 /* section 3 + icon behaviour for single page*/ 
-#single-section3-main-container {
+#single-section3-main-container {  
     padding-top: 50px;
     padding-bottom: 50px;
     padding-left: 0%;
@@ -820,7 +820,7 @@ a:hover {
 }
 
 .single-contact-shortcut-nav-img:hover .single-eye-icon-container,
-#single-section3-main-container .single-content-right:hover .single-expand-icon-container,
+.single-content-right:hover .single-expand-icon-container,
 #single-section3-main-container .dynamic-image.left:hover .single-eye-icon-container,
 #single-section3-main-container .dynamic-image.left:hover .single-expand-icon-container,
 #single-section3-main-container .dynamic-image.right:hover .single-eye-icon-container,
@@ -849,6 +849,14 @@ a:hover {
     display: flex;
     justify-content: center;
     padding-top: 75px;
+}
+
+
+.single-more-button-container {
+    padding-top: 100px;
+    display: flex;
+    width: 100%;    
+    justify-content: center;
 }
 
 
@@ -886,6 +894,7 @@ a:hover {
     transition: .25s;
     overflow: hidden;      
 }
+
 
 .lightbox-container button {
     z-index: 99;
