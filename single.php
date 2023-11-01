@@ -4,8 +4,7 @@
 <header>
     <?php get_template_part('template-part/navmenu'); ?>
 
-    <script type="text/javascript">
-    var single_load_more_ajax = "<?php echo admin_url('admin-ajax.php'); ?>";
+    
     </script>
 
 </header>
@@ -302,10 +301,11 @@
         ?>
     </div> <!-- "single-section3-image-container" -->
 
-    <div class="single-more-button-container">
-       <button id="load-more-photos" class="more-button">Toutes les photos</button>
-        <div id="photo-container" class="single-section3-image-container">
+    <div id="new-content" class="single-section3-image-container">
         <!-- This is where the loaded photos will be displayed -->
+
+    <div class="single-more-button-container">
+       <button id="load-more-photos" class="more-button">Toutes les photos</button>        
     </div>
 
     </div>

@@ -230,11 +230,12 @@ jQuery(document).ready(function($) {
 
 
 
-// ---- Contact Modal ----
+// ---- Contact Modal & Reference fetch for modal ----
 document.addEventListener('DOMContentLoaded', function () {
     let modal = document.getElementById('modal-container');
     let openModalBtn = document.getElementById('open-modal');
     let closeModalBtn = document.getElementById('close-modal');
+    var singleButton = document.getElementById('single-contact-button');
 
     // Function to open the modal
     function openModal() {
@@ -264,12 +265,11 @@ document.addEventListener('DOMContentLoaded', function () {
         }
     });
 
-    // MODAL AJAX TAXO DATA FETCH / SINGLE
-    var singleButton = document.getElementById('single-contact-button');
-
     if (singleButton) {
         singleButton.addEventListener('click', function () {
             var postID = singleButton.getAttribute('data-post-id');
+
+            console.log('postID:', postID); // Log the postID
 
             var xhr = new XMLHttpRequest();
 
@@ -277,17 +277,32 @@ document.addEventListener('DOMContentLoaded', function () {
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
             xhr.onreadystatechange = function () {
-                if (xhr.readyState === 4 && xhr.status === 200) {
-                    var response = JSON.parse(xhr.responseText);
+                if (xhr.readyState === 4) {
+                    if (xhr.status === 200) {
+                        var response = JSON.parse(xhr.responseText);
 
-                    // Populate the form field in modal
-                    var modalReferenceField = document.getElementById('modal-reference-field');
-                    if (modalReferenceField) {
-                        modalReferenceField.value = response.reference;
+                        console.log('Response:', response); // Log the response object
+
+                        // Populate the form field in modal
+                        var modalReferenceField = document.getElementById('modal-reference-field');
+                        if (modalReferenceField) {
+                            modalReferenceField.value = response.reference;
+                            console.log('Field value set to:', response.reference); // Log the value
+                            console.log('Response:', response);
+
+                            // Here, you can add the code to update the "your-subject" input field
+                        var subjectInput = document.querySelector('input[name="reference-ajax"]');
+                        if (subjectInput) {
+                            subjectInput.value = response.reference;
+                            }
+
+                        }
+
+                        // Open the modal
+                        openModal();
+                    } else {
+                        console.error('Error: Request failed with status', xhr.status); // Log an error
                     }
-
-                    // Open the modal
-                    openModal();
                 }
             };
 
@@ -296,7 +311,6 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
-
 
 
 // ----- Single Scetion 2 mini image -----
@@ -464,12 +478,12 @@ jQuery(document).ready(function($) {
 
 
 //---- Single Load More Button 
- function getSection1CategorieSlug() {
-        // Extract the "categorie" slug from Section 1 content
-        var categorieSlug = $('#single-content .taxo-item .value').text();
-        return categorieSlug;
-    }
-    
+function getSection1CategorieSlug() {
+    // Find the element with the class "value" within the element with the class "taxo-item" inside the element with the ID "single-content"
+    var categorieSlug = $('#single-content .taxo-item .value').text();
+    return categorieSlug;
+}
+
 jQuery(document).ready(function ($) {
     $('#load-more-photos').on('click', function () {
         var categorieSlug = getSection1CategorieSlug();
@@ -477,21 +491,58 @@ jQuery(document).ready(function ($) {
         if (categorieSlug) {
             $.ajax({
                 type: 'POST',
-                url: single_load_more_ajax.ajax_url, // WordPress AJAX URL
+                url: single_load_more_ajax.ajax_url,
                 data: {
-                    action: 'single_load_more_photos', // Updated AJAX action
-                    categorie: categorieSlug,
+                    action: 'single_load_more_photos',
+                    categorie: categorieSlug, // Pass the category slug
                 },
                 success: function (response) {
-                    $('#photo-container').html(response);
+                    // Append the new posts to the "new-content" div within Section 3
+                    $('#new-content').append(response);
                 },
+                error: function (error) {
+                    console.log('AJAX Error:', error.responseText);
+                }
             });
         }
     });
-
-    function getSection1CategorieSlug() {
-        // Extract the "categorie" slug from Section 1 content
-        var categorieSlug = $('#single-content .taxo-item .value').text();
-        return categorieSlug;
-    }
 });
+
+
+
+
+
+
+/* /---- Single Load More Button  OLD
+function getSection1CategorieSlug() {
+    // Extract the "categorie" slug from Section 1 content
+    var categorieSlug = $('#single-content .taxo-item .value').text();
+    return categorieSlug;
+}
+
+jQuery(document).ready(function ($) {
+    $('#load-more-photos').on('click', function () {
+        var categorieSlug = getSection1CategorieSlug();
+
+        if (categorieSlug) {
+            $.ajax({
+                type: 'POST',
+                url: single_load_more_ajax.ajax_url,
+                data: {
+                    action: 'single_load_more_photos',
+                    categorie: categorieSlug,
+                },
+                success: function (response) {
+                    // Log the length of the response data for debugging
+                   console.log('Response Data (Start):', response.substring(0, 500));
+                    $('#photo-container').html(response);
+                },
+                error: function (error) {
+                    // Log the error message for debugging
+                    console.log('AJAX Error:', error.responseText);
+                }
+            });
+        }
+    });
+});
+*/
