@@ -1,7 +1,13 @@
 <!-- Section 1 -->
 <?php get_template_part('header'); ?>
+
 <header>
-<?php get_template_part('template-part/navmenu'); ?>
+    <?php get_template_part('template-part/navmenu'); ?>
+
+    <script type="text/javascript">
+    var single_load_more_ajax = "<?php echo admin_url('admin-ajax.php'); ?>";
+    </script>
+
 </header>
 
 <div id="single-global-container">

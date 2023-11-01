@@ -4,9 +4,6 @@
 <?php get_template_part('template-part/navmenu'); ?>
 <?php get_template_part('template-part/hero'); ?>
 
-<script type="text/javascript">
-    var customAjaxUrl = "<?php echo admin_url('admin-ajax.php'); ?>";
-</script>
 
 
 </header>

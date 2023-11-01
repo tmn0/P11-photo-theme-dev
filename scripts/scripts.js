@@ -188,8 +188,11 @@ jQuery(document).ready(function($) {
 
     $loadMoreButton.on('click', function() {
         if (!loading) {
+            
             loading = true;
+            
             page++;
+            
             /*
             $loadMoreButton.text('Chargement en cours...');
             */
@@ -202,15 +205,16 @@ jQuery(document).ready(function($) {
                 url: ajaxurl, // Use the AJAX URL defined by wp_localize_script
                 data: {
                     action: 'load_more_photos',
-                    page: page,
+                    /*page: page,*/
                 },
                 success: function(response) {
                     if (response) {
                         $masonryGrid.append(response);
+                         
                         loading = false;
-                        /*
+                       
                         $loadMoreButton.text('Charger plus');
-                        */
+                        
                     } else {
                         /*
                         $loadMoreButton.text('Fin de chargement');
@@ -459,7 +463,13 @@ jQuery(document).ready(function($) {
 
 
 
-//---- Single Load More Button----
+//---- Single Load More Button 
+ function getSection1CategorieSlug() {
+        // Extract the "categorie" slug from Section 1 content
+        var categorieSlug = $('#single-content .taxo-item .value').text();
+        return categorieSlug;
+    }
+    
 jQuery(document).ready(function ($) {
     $('#load-more-photos').on('click', function () {
         var categorieSlug = getSection1CategorieSlug();
@@ -467,7 +477,7 @@ jQuery(document).ready(function ($) {
         if (categorieSlug) {
             $.ajax({
                 type: 'POST',
-                url: ajaxurl, // WordPress AJAX URL
+                url: single_load_more_ajax.ajax_url, // WordPress AJAX URL
                 data: {
                     action: 'single_load_more_photos', // Updated AJAX action
                     categorie: categorieSlug,
@@ -480,12 +490,8 @@ jQuery(document).ready(function ($) {
     });
 
     function getSection1CategorieSlug() {
-        // Implement this function to extract and return the "categorie" slug from Section 1 content
+        // Extract the "categorie" slug from Section 1 content
+        var categorieSlug = $('#single-content .taxo-item .value').text();
+        return categorieSlug;
     }
 });
-
-
-
-
-
-

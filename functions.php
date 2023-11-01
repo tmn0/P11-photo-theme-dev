@@ -5,17 +5,22 @@
 /*Register assets*/
 function photo_theme_register_assets() {
     wp_enqueue_style('theme-main', get_stylesheet_uri());
-
+    
+    /*
     // Enqueue jQuery
     wp_enqueue_script('jquery');
-
+    */
 
     // Enqueue your custom JavaScript file
     wp_enqueue_script('custom-scripts', get_template_directory_uri() . '/scripts/custom-scripts.js', array('jquery'), null, true);
 
-    // Pass the AJAX URL to the JavaScript file
+    // Pass the AJAX URL to the JavaScript file  // !!! SEE HEADER.PHP !!!
     wp_localize_script('custom-scripts', 'photo_ajax', array('ajax_url' => admin_url('admin-ajax.php')
     ));
+
+    wp_localize_script('custom-scripts', 'single_load_more_ajax', array('ajax_url' => admin_url('admin-ajax.php')
+    ));
+   
 }
 
 add_action('wp_enqueue_scripts', 'photo_theme_register_assets');
@@ -208,7 +213,44 @@ add_filter('wp_get_attachment_image_attributes', 'remove_image_size_attributes')
 /*-------------*/
 /*-------------*/
 /* AJAX / FRONT PAGE LOAD MORE BUTTON */  
+function load_more_photos() {
+    // Get the page number from the AJAX request
+    $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
 
+    // Number of posts to load per request
+    $posts_per_page = 10;
+
+    // Query custom 'photo' posts for the current page
+    $args = array(
+        'post_type' => 'photo',
+        'posts_per_page' => $posts_per_page,
+        'paged' => $page,
+    );
+
+    $query = new WP_Query($args);
+
+    if ($query->have_posts()) {
+        while ($query->have_posts()) {
+            $query->the_post();
+
+            // Output your post content here
+            // For example, you can use functions like the_title(), the_content(), etc.
+
+            // Don't forget to flush the output buffer
+            ob_flush();
+            flush();
+        }
+    }
+
+    // Always use wp_die() to terminate the script
+    wp_die();
+}
+
+add_action('wp_ajax_load_more_photos', 'load_more_photos');
+add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
+
+
+/* OLD VERSION
 function load_more_photos() {
     $page = $_POST['page'];
 
@@ -232,7 +274,7 @@ function load_more_photos() {
 
 add_action('wp_ajax_load_more_photos', 'load_more_photos');
 add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
-
+*/
 
 
 
@@ -302,10 +344,11 @@ function get_photo_content() {
 
 /*-------------*/
 /*-------------*/
-// Single Load More Button
+// Single Load More Button 
 
 function single_load_more_photos() { // Updated AJAX action
     $categorie_slug = sanitize_text_field($_POST['categorie']);
+    
 
     $query = new WP_Query(array(
         'post_type' => 'photo',
@@ -338,6 +381,7 @@ function single_load_more_photos() { // Updated AJAX action
 
 add_action('wp_ajax_single_load_more_photos', 'single_load_more_photos'); // Updated AJAX action
 add_action('wp_ajax_nopriv_single_load_more_photos', 'single_load_more_photos'); // Updated AJAX action
+
 
 
 
