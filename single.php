@@ -300,7 +300,7 @@
         ?>
     </div> <!-- "single-section3-image-container" -->
 
-    <div id="new-content" class="single-section3-image-container">
+    <div id="single-new-posts-container" class="single-section3-image-container">
         <!-- This is where the loaded photos will be displayed -->
     </div>
 

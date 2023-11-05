@@ -17,14 +17,14 @@ function photo_theme_register_assets() {
     wp_enqueue_script('custom-scripts', get_template_directory_uri() . '/scripts/custom-scripts.js', array('jquery'), null, true);
 
     // Pass the AJAX URL to the JavaScript file  // !!! SEE HEADER.PHP !!!
-    /*
+    
     wp_localize_script('custom-scripts', 'photo_ajax', array('ajax_url' => admin_url('admin-ajax.php')));
   
 
     wp_localize_script('custom-scripts', 'single_load_more_ajax', array('ajax_url' => admin_url('admin-ajax.php')));
    
     wp_localize_script('custom-scripts', 'ajaxurl', array('ajax_url' => admin_url('admin-ajax.php')));
-    */
+    
 }
 add_action('wp_enqueue_scripts', 'photo_theme_register_assets');
 
@@ -239,7 +239,7 @@ function load_more_photos() {
 
             // Output your post content here
             // For example, you can use functions like the_title(), the_content(), etc.
-
+            the_content();
             // Don't forget to flush the output buffer
             ob_flush();
             flush();
@@ -374,6 +374,7 @@ function single_load_more_photos() {
             // Generate and append HTML for the individual posts
             $generated_html .= '<div class="photo-post">';
             // Append the post content
+            the_content();
             $generated_html .= apply_filters('the_content', get_the_content());
             $generated_html .= '</div>';
         }

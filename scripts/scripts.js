@@ -186,20 +186,21 @@ jQuery("#home-load-more-button").on("click", function (e) {
     e.preventDefault();
 
     var $button = jQuery(this);
-    var page = $button.data("page");
+    /*var page = $button.data("page");*/
 
     jQuery.ajax({
-        url: ajaxurl, // Use the correct variable
+        url: photo_ajax.ajax_url, 
         type: "POST",
         data: {
             action: "load_more_photos",
-            page: page
+           /* page: page*/
         },
         success: function (response) {
             // Handle the response and append the new posts
             // to the container
             console.log("AJAX Success:", response);
             // Append the posts to your container
+            $('front-page-new-posts-container').append(response);
         },
         error: function () {
             console.log("AJAX Error");
@@ -467,8 +468,8 @@ jQuery(document).ready(function($) {
                     posts_per_page: postsPerPage, // Pass the updated value
                 },
                 success: function (response) {
-                    // Append the new posts to the "new-content" div within Section 3
-                    $('#new-content').append(response);
+                    // Append the new posts 
+                    $('#single-new-posts-container').append(response);
                 },
                 error: function (error) {
                     console.log('AJAX Error:', error.responseText);

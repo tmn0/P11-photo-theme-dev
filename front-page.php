@@ -145,7 +145,7 @@
         endwhile;
 
             // Load more posts
-            echo '<div id="front-pagenew-posts-container"></div>';
+            echo '<div id="front-page-new-posts-container"></div>';
 
 
         // Close the grid container
