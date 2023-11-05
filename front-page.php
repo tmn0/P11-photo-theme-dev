@@ -6,8 +6,6 @@
 
 
 
-</header>
-
 <div class="home-container">
     <!-- Buttons & Filters -->
     <div class="taxonomy-selector-main-container">
@@ -69,7 +67,7 @@
     <?php
     $custom_query_args = array(
         'post_type' => 'photo',
-        'posts_per_page' => 10,
+     /* 'posts_per_page' => 10,*/
     );
 
     // Create a new custom query
@@ -145,6 +143,10 @@
             }
 
         endwhile;
+
+            // Load more posts
+            echo '<div id="front-pagenew-posts-container"></div>';
+
 
         // Close the grid container
         echo '</div>';

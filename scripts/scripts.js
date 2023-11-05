@@ -180,49 +180,29 @@ document.addEventListener("DOMContentLoaded", function() {
 
 
 // ---- Front page Load more button ----
-jQuery(document).ready(function($) {
-    var page = 1;
-    var loading = false;
-    var $loadMoreButton = $('#home-load-more-button');
-    var $masonryGrid = $('#front-masonry .home-masonry-grid');
+/*var ajaxurl = photo_ajax.ajax_url; // Correct variable name*/
 
-    $loadMoreButton.on('click', function() {
-        if (!loading) {
-            
-            loading = true;
-            
-            page++;
-            
-            /*
-            $loadMoreButton.text('Chargement en cours...');
-            */
+jQuery("#home-load-more-button").on("click", function (e) {
+    e.preventDefault();
 
-            // Define the ajaxurl variable correctly
-            var ajaxurl = photo_ajax.ajax_url;
+    var $button = jQuery(this);
+    var page = $button.data("page");
 
-            $.ajax({
-                type: 'POST',
-                url: ajaxurl, // Use the AJAX URL defined by wp_localize_script
-                data: {
-                    action: 'load_more_photos',
-                    /*page: page,*/
-                },
-                success: function(response) {
-                    if (response) {
-                        $masonryGrid.append(response);
-                         
-                        loading = false;
-                       
-                        $loadMoreButton.text('Charger plus');
-                        
-                    } else {
-                        /*
-                        $loadMoreButton.text('Fin de chargement');
-                        $loadMoreButton.attr('disabled', true);
-                        */
-                    }
-                },
-            });
+    jQuery.ajax({
+        url: ajaxurl, // Use the correct variable
+        type: "POST",
+        data: {
+            action: "load_more_photos",
+            page: page
+        },
+        success: function (response) {
+            // Handle the response and append the new posts
+            // to the container
+            console.log("AJAX Success:", response);
+            // Append the posts to your container
+        },
+        error: function () {
+            console.log("AJAX Error");
         }
     });
 });
@@ -236,72 +216,47 @@ document.addEventListener('DOMContentLoaded', function () {
     let openModalBtn = document.getElementById('open-modal');
     let closeModalBtn = document.getElementById('close-modal');
     var singleButton = document.getElementById('single-contact-button');
+    var modalReferenceField = document.getElementById('modal-reference-field');
 
-    // Function to open the modal
     function openModal() {
         modal.style.display = 'block';
-        modal.classList.add('modal-open-state'); // Add the class when opening
     }
 
-    // Function to close the modal
     function closeModal() {
         modal.style.display = 'none';
-        // modal.classList.remove('modal-open-state'); // Remove the class when closing
     }
 
-    // Event listener to open the modal when the "Open Modal" button is clicked
     openModalBtn.addEventListener('click', function (event) {
-        event.preventDefault(); // Prevent the default link behavior
+        event.preventDefault();
         openModal();
     });
 
-    // Event listener to close the modal when the "Close" button is clicked
     closeModalBtn.addEventListener('click', closeModal);
 
-    // Close the modal if the user clicks outside of it
     window.addEventListener('click', function (event) {
         if (event.target === modal) {
             closeModal();
         }
     });
 
-    if (singleButton) {
+    if (singleButton && modalReferenceField) {
         singleButton.addEventListener('click', function () {
             var postID = singleButton.getAttribute('data-post-id');
-
-            console.log('postID:', postID); // Log the postID
 
             var xhr = new XMLHttpRequest();
 
             xhr.open('POST', '/wp-admin/admin-ajax.php', true);
-            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+            xhr.setRequestHeader('Content-Type', 'text/plain');
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
                     if (xhr.status === 200) {
-                        var response = JSON.parse(xhr.responseText);
+                        var response = xhr.responseText;
 
-                        console.log('Response:', response); // Log the response object
-
-                        // Populate the form field in modal
-                        var modalReferenceField = document.getElementById('modal-reference-field');
-                        if (modalReferenceField) {
-                            modalReferenceField.value = response.reference;
-                            console.log('Field value set to:', response.reference); // Log the value
-                            console.log('Response:', response);
-
-                            // Here, you can add the code to update the "your-subject" input field
-                        var subjectInput = document.querySelector('input[name="reference-ajax"]');
-                        if (subjectInput) {
-                            subjectInput.value = response.reference;
-                            }
-
-                        }
-
-                        // Open the modal
+                        modalReferenceField.value = response;
                         openModal();
                     } else {
-                        console.error('Error: Request failed with status', xhr.status); // Log an error
+                        console.error('Error: Request failed with status', xhr.status);
                     }
                 }
             };
@@ -311,6 +266,7 @@ document.addEventListener('DOMContentLoaded', function () {
         });
     }
 });
+
 
 
 // ----- Single Scetion 2 mini image -----
@@ -479,6 +435,62 @@ jQuery(document).ready(function($) {
 
 //---- Single Load More Button 
 function getSection1CategorieSlug() {
+    // Use the existing category name from your section 3 code
+    var categorieSlug = "<?php echo $category_name; ?>"; // Assuming $category_name is available in your context
+
+    return categorieSlug;
+}
+
+var postsPerPage = 2; // Initial value
+
+// Attach a click event listener to your "Load More" button
+jQuery(document).ready(function($) {
+    $('#load-more-photos').on('click', function () {
+        // Increase the number of posts to load
+        postsPerPage = -1; // Change to -1 to load all posts
+
+        if (postsPerPage === -1) {
+            // Set the "Load More" button text to indicate that all posts are loaded
+            $('#load-more-photos').text('All photos loaded');
+        }
+
+        // Send an AJAX request with the updated postsPerPage value
+        var categorieSlug = getSection1CategorieSlug();
+
+        if (categorieSlug) {
+            $.ajax({
+                type: 'POST',
+                url: single_load_more_ajax.ajax_url,
+                data: {
+                    action: 'single_load_more_photos',
+                    categorie: categorieSlug, // Pass the category slug from section 3
+                    posts_per_page: postsPerPage, // Pass the updated value
+                },
+                success: function (response) {
+                    // Append the new posts to the "new-content" div within Section 3
+                    $('#new-content').append(response);
+                },
+                error: function (error) {
+                    console.log('AJAX Error:', error.responseText);
+                }
+            });
+        }
+    });
+});
+
+
+
+
+
+
+
+
+
+
+
+
+/*
+function getSection1CategorieSlug() {
     // Find the element with the class "value" within the element with the class "taxo-item" inside the element with the ID "single-content"
     var categorieSlug = $('#single-content .taxo-item .value').text();
     return categorieSlug;
@@ -507,8 +519,7 @@ jQuery(document).ready(function ($) {
         }
     });
 });
-
-
+*/
 
 
 

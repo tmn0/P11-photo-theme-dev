@@ -3,9 +3,8 @@
 
 <header>
     <?php get_template_part('template-part/navmenu'); ?>
-
     
-    </script>
+  
 
 </header>
 
@@ -303,12 +302,13 @@
 
     <div id="new-content" class="single-section3-image-container">
         <!-- This is where the loaded photos will be displayed -->
+    </div>
 
     <div class="single-more-button-container">
        <button id="load-more-photos" class="more-button">Toutes les photos</button>        
     </div>
 
-    </div>
+   
 </section>
 
 
