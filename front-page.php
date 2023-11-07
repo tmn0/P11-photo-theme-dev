@@ -5,7 +5,6 @@
 <?php get_template_part('template-part/hero'); ?>
 
 
-
 <div class="home-container">
     <!-- Buttons & Filters -->
     <div class="taxonomy-selector-main-container">

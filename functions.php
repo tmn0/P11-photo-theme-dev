@@ -216,21 +216,23 @@ add_filter('wp_get_attachment_image_attributes', 'remove_image_size_attributes')
 
 /*-------------*/
 /*-------------*/
-/* AJAX / FRONT PAGE LOAD MORE BUTTON */  
+/* FRONT PAGE LOAD MORE BUTTON */
 function load_more_photos() {
     // Get the page number from the AJAX request
     $page = isset($_POST['page']) ? intval($_POST['page']) : 1;
 
     // Number of posts to load per request
-    $posts_per_page = 10;
+    $posts_per_page = 10; // Start with 10 posts per page
+
+    // Increment the number of posts per page
+    $posts_per_page += 10;
 
     // Query custom 'photo' posts for the current page
     $args = array(
-        'post_type' => 'photo',
+        'post_type'      => 'photo',
         'posts_per_page' => $posts_per_page, // Use the updated value
-        'paged' => $page,
+        'paged'          => $page,
     );
-
 
     $query = new WP_Query($args);
 
@@ -255,37 +257,8 @@ add_action('wp_ajax_load_more_photos', 'load_more_photos');
 add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
 
 
-/* OLD VERSION
-function load_more_photos() {
-    $page = $_POST['page'];
 
-    $custom_query_args = array(
-        'post_type' => 'photo',
-        'posts_per_page' => 10,
-        'paged' => $page,
-    );
-
-    $custom_query = new WP_Query($custom_query_args);
-
-    if ($custom_query->have_posts()) {
-        while ($custom_query->have_posts()) {
-            $custom_query->the_post();
-            // Output the post content as you did before
-        }
-    }
-
-    wp_die();
-}
-
-add_action('wp_ajax_load_more_photos', 'load_more_photos');
-add_action('wp_ajax_nopriv_load_more_photos', 'load_more_photos');
-*/
-
-
-
-/*-------------*/
-/*-------------*/
-// AJAX / BUTTON TAXO DATA FETCH CONTACT
+// SINGLE FORM DATA FETCH
 function get_reference_term_data() {
     // Get the post ID from the AJAX request
     $post_id = $_POST['post_id'];
@@ -305,9 +278,8 @@ function get_reference_term_data() {
 }
 
 add_action('wp_ajax_get_reference_term_data', 'get_reference_term_data');
-/*
 add_action('wp_ajax_nopriv_get_reference_term_data', 'get_reference_term_data');
-*/
+
 
 
 /*-------------*/
@@ -388,86 +360,7 @@ function single_load_more_photos() {
 }
 
 
-/*
-function single_load_more_photos() {
-    $categorie_slug = sanitize_text_field($_POST['categorie']);
 
-    $query = new WP_Query(array(
-        'post_type' => 'photo',
-        'posts_per_page' => -1, // Adjust the number of posts per page as needed
-        'tax_query' => array(
-            array(
-                'taxonomy' => 'categorie',
-                'field' => 'slug',
-                'terms' => $categorie_slug,
-            ),
-        ),
-    ));
-
-    $generated_html = '';
-
-    if ($query->have_posts()) {
-        while ($query->have_posts()) {
-            $query->the_post();
-
-            // Generate and append HTML for the individual posts
-            $generated_html .= '<div class="photo-post">';
-            // Append the post content
-            $generated_html .= apply_filters('the_content', get_the_content());
-            $generated_html .= '</div>';
-        }
-    }
-
-    wp_reset_postdata();
-
-    echo $generated_html;
-    wp_die(); // Terminate the script safely
-}
-
-*/
-
-
-// Single Load More Button OLD
-
-/*
-function single_load_more_photos() {
-    $categorie_slug = sanitize_text_field($_POST['categorie']);
-
-    $query = new WP_Query(array(
-        'post_type' => 'photo',
-        'posts_per_page' => -1,
-        'tax_query' => array(
-            array(
-                'taxonomy' => 'categorie',
-                'field' => 'slug',
-                'terms' => $categorie_slug,
-            ),
-        ),
-    ));
-
-    $generated_html = '';
-
-    if ($query->have_posts()) {
-        while ($query->have_posts()) {
-            $query->the_post();
-            
-            // Generate and append HTML for the individual posts
-            $generated_html .= '<div class="photo-post">';
-            // Append the post content
-            $generated_html .= apply_filters('the_content', get_the_content());
-            $generated_html .= '</div>';
-        }
-    }
-
-    wp_reset_postdata();
-
-    echo $generated_html;
-    wp_die(); // Terminate the script safely
-}
-
-add_action('wp_ajax_single_load_more_photos', 'single_load_more_photos');
-add_action('wp_ajax_nopriv_single_load_more_photos', 'single_load_more_photos');
-*/
 
 
 // Front Page Button 3 Taxo SORTING

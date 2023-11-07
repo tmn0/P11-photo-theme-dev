@@ -2,9 +2,8 @@
 <?php get_template_part('header'); ?>
 
 <header>
-    <?php get_template_part('template-part/navmenu'); ?>
-    
-  
+    <?php get_template_part('template-part/navmenu'); ?>   
+ 
 
 </header>
 

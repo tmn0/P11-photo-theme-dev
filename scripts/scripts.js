@@ -181,44 +181,46 @@ document.addEventListener("DOMContentLoaded", function() {
 
 // ---- Front page Load more button ----
 /*var ajaxurl = photo_ajax.ajax_url; // Correct variable name*/
+document.addEventListener("DOMContentLoaded", function() {
+    jQuery("#home-load-more-button").on("click", function (e) {
+        e.preventDefault();
 
-jQuery("#home-load-more-button").on("click", function (e) {
-    e.preventDefault();
-
-    var $button = jQuery(this);
-    /*var page = $button.data("page");*/
-
-    jQuery.ajax({
-        url: custom_ajax.ajax_url, 
-        type: "POST",
-        data: {
-            action: "load_more_photos",
-           /* page: page*/
-        },
-        success: function (response) {
-            // Handle the response and append the new posts
-            // to the container
-            console.log("AJAX Success:", response);
-            // Append the posts to your container
-            $('front-page-new-posts-container').append(response);
-        },
-        error: function () {
-            console.log("AJAX Error");
-        }
+        var $button = jQuery(this);
+        /*var page = $button.data("page");*/
+        
+        jQuery.ajax({
+            url: custom_ajax.ajax_url, 
+            type: "POST",
+            data: {
+                action: "load_more_photos",
+            /* page: page*/
+            },
+            success: function (response) {
+                // Handle the response and append the new posts
+                // to the container
+                console.log("AJAX Success:", response);
+                // Append the posts to your container
+                $('#front-page-new-posts-container').append(response);
+            },
+            error: function () {
+                console.log("AJAX Error");
+            }
+        });
     });
 });
 
 
 
-
 // ---- Contact Modal & Reference fetch for modal ----
 document.addEventListener('DOMContentLoaded', function () {
+    
     let modal = document.getElementById('modal-container');
     let openModalBtn = document.getElementById('open-modal');
     let closeModalBtn = document.getElementById('close-modal');
     var singleButton = document.getElementById('single-contact-button');
     var modalReferenceField = document.getElementById('modal-reference-field');
     //var custom_ajax = ajax.url;
+    
 
     function openModal() {
         modal.style.display = 'block';
@@ -244,10 +246,13 @@ document.addEventListener('DOMContentLoaded', function () {
     if (singleButton && modalReferenceField) {
         singleButton.addEventListener('click', function () {
             var postID = singleButton.getAttribute('data-post-id');
+            var ajaxAction = 'get_reference_term_data';
+            var data = 'action=' + ajaxAction + '&post_id=' + postID;
+
 
             var xhr = new XMLHttpRequest();
-
-            xhr.open('POST', custom_ajax.ajax_url, true); // Use the AJAX URL from wp_localize_script
+            //custom_ajax.ajax_url ---- custom_ajax
+            xhr.open('POST', custom_ajax, true); // Use the AJAX URL from wp_localize_script
             xhr.setRequestHeader('Content-Type', 'text/plain');
 
             xhr.onreadystatechange = function () {
@@ -262,8 +267,7 @@ document.addEventListener('DOMContentLoaded', function () {
                     }
                 }
             };
-
-            var data = 'action=get_reference_term_data&post_id=' + postID;
+            
             xhr.send(data);
         });
     }
@@ -481,81 +485,3 @@ jQuery(document).ready(function($) {
 });
 
 
-
-
-
-
-
-
-
-
-
-
-/*
-function getSection1CategorieSlug() {
-    // Find the element with the class "value" within the element with the class "taxo-item" inside the element with the ID "single-content"
-    var categorieSlug = $('#single-content .taxo-item .value').text();
-    return categorieSlug;
-}
-
-jQuery(document).ready(function ($) {
-    $('#load-more-photos').on('click', function () {
-        var categorieSlug = getSection1CategorieSlug();
-
-        if (categorieSlug) {
-            $.ajax({
-                type: 'POST',
-                url: single_load_more_ajax.ajax_url,
-                data: {
-                    action: 'single_load_more_photos',
-                    categorie: categorieSlug, // Pass the category slug
-                },
-                success: function (response) {
-                    // Append the new posts to the "new-content" div within Section 3
-                    $('#new-content').append(response);
-                },
-                error: function (error) {
-                    console.log('AJAX Error:', error.responseText);
-                }
-            });
-        }
-    });
-});
-*/
-
-
-
-
-/* /---- Single Load More Button  OLD
-function getSection1CategorieSlug() {
-    // Extract the "categorie" slug from Section 1 content
-    var categorieSlug = $('#single-content .taxo-item .value').text();
-    return categorieSlug;
-}
-
-jQuery(document).ready(function ($) {
-    $('#load-more-photos').on('click', function () {
-        var categorieSlug = getSection1CategorieSlug();
-
-        if (categorieSlug) {
-            $.ajax({
-                type: 'POST',
-                url: single_load_more_ajax.ajax_url,
-                data: {
-                    action: 'single_load_more_photos',
-                    categorie: categorieSlug,
-                },
-                success: function (response) {
-                    // Log the length of the response data for debugging
-                   console.log('Response Data (Start):', response.substring(0, 500));
-                    $('#photo-container').html(response);
-                },
-                error: function (error) {
-                    // Log the error message for debugging
-                    console.log('AJAX Error:', error.responseText);
-                }
-            });
-        }
-    });
-});
-*/
