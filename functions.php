@@ -17,14 +17,15 @@ function photo_theme_register_assets() {
     wp_enqueue_script('custom-scripts', get_template_directory_uri() . '/scripts/custom-scripts.js', array('jquery'), null, true);
 
     // Pass the AJAX URL to the JavaScript file  // !!! SEE HEADER.PHP !!!
-    
+    /*
     wp_localize_script('custom-scripts', 'photo_ajax', array('ajax_url' => admin_url('admin-ajax.php')));
   
-
     wp_localize_script('custom-scripts', 'single_load_more_ajax', array('ajax_url' => admin_url('admin-ajax.php')));
    
     wp_localize_script('custom-scripts', 'ajaxurl', array('ajax_url' => admin_url('admin-ajax.php')));
-    
+    */
+    wp_localize_script('custom-scripts', 'custom_ajax', array('ajax_url' => admin_url('admin-ajax.php')));
+
 }
 add_action('wp_enqueue_scripts', 'photo_theme_register_assets');
 

@@ -9,9 +9,7 @@
 
     <!-- testing ajax alternative debugging // not working in functions.php alone ?? -->
     <script type="text/javascript">
-    var ajaxurl = '<?php echo admin_url('admin-ajax.php'); ?>';
-    var photo_ajax = "<?php echo admin_url('admin-ajax.php'); ?>";     
-    var single_load_more_ajax = "<?php echo admin_url('admin-ajax.php'); ?>";         
+    var custom_ajax = '<?php echo admin_url('admin-ajax.php'); ?>';          
     </script>
 
     <!-- our project just needs Font Awesome Solid + Brands -->

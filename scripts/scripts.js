@@ -189,7 +189,7 @@ jQuery("#home-load-more-button").on("click", function (e) {
     /*var page = $button.data("page");*/
 
     jQuery.ajax({
-        url: photo_ajax.ajax_url, 
+        url: custom_ajax.ajax_url, 
         type: "POST",
         data: {
             action: "load_more_photos",
@@ -218,6 +218,7 @@ document.addEventListener('DOMContentLoaded', function () {
     let closeModalBtn = document.getElementById('close-modal');
     var singleButton = document.getElementById('single-contact-button');
     var modalReferenceField = document.getElementById('modal-reference-field');
+    //var custom_ajax = ajax.url;
 
     function openModal() {
         modal.style.display = 'block';
@@ -246,7 +247,7 @@ document.addEventListener('DOMContentLoaded', function () {
 
             var xhr = new XMLHttpRequest();
 
-            xhr.open('POST', '/wp-admin/admin-ajax.php', true);
+            xhr.open('POST', custom_ajax.ajax_url, true); // Use the AJAX URL from wp_localize_script
             xhr.setRequestHeader('Content-Type', 'text/plain');
 
             xhr.onreadystatechange = function () {
@@ -340,7 +341,7 @@ jQuery(document).ready(function($) {
         };
 
         // Send an AJAX request to fetch post content
-        $.post(ajaxurl, data, function(response) {
+        $.post(custom_ajax, data, function(response) {
             // Update the content of the div
             $('.single-contact-shortcut-nav-img').html(response);
         });
@@ -369,7 +370,7 @@ jQuery(document).ready(function($) {
         // Send an AJAX request to fetch the "photo" post content
         $.ajax({
             type: "POST",
-            url: ajaxurl, // WordPress AJAX URL
+            url: custom_ajax, // WordPress AJAX URL
             data: {
                 action: "get_photo_content",
                 post_id: postId,
@@ -452,7 +453,7 @@ jQuery(document).ready(function($) {
 
         if (postsPerPage === -1) {
             // Set the "Load More" button text to indicate that all posts are loaded
-            $('#load-more-photos').text('All photos loaded');
+            $('#load-more-photos').text('Photos toutes chargées');
         }
 
         // Send an AJAX request with the updated postsPerPage value
@@ -461,7 +462,7 @@ jQuery(document).ready(function($) {
         if (categorieSlug) {
             $.ajax({
                 type: 'POST',
-                url: single_load_more_ajax.ajax_url,
+                url: custom_ajax.ajax_url,
                 data: {
                     action: 'single_load_more_photos',
                     categorie: categorieSlug, // Pass the category slug from section 3
