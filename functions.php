@@ -1,5 +1,6 @@
 <?php
-
+error_reporting(E_ALL);
+ini_set('display_errors', 1);
 /*-------------*/
 /*-------------*/
 /*Register assets*/
@@ -273,6 +274,8 @@ function get_reference_term_data() {
 
     // Encode the data as JSON and send it back as the AJAX response
     echo json_encode($term_data);
+
+    error_log('AJAX Request Received'); // Log a message to the error log
 
     wp_die(); // Always include this to terminate the script properly
 }

@@ -253,7 +253,8 @@ document.addEventListener('DOMContentLoaded', function () {
             var xhr = new XMLHttpRequest();
             //custom_ajax.ajax_url ---- custom_ajax
             xhr.open('POST', custom_ajax, true); // Use the AJAX URL from wp_localize_script
-            xhr.setRequestHeader('Content-Type', 'text/plain');
+            /*xhr.setRequestHeader('Content-Type', 'text/plain');*/
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
             xhr.onreadystatechange = function () {
                 if (xhr.readyState === 4) {
